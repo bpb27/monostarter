@@ -6,27 +6,18 @@ Ensure Node.js 22 or greater (recommend using asdf for version management)
 
 ## Doing stuff
 
-Installing new packages:
+Installing a new packages in a workspace (package or app). To install a root package, use the `-w` flag instead of a filter.
 
 ```bash
 pnpm install -D eslint-plugin-prettier --filter=@repo/eslint-config
 ```
 
-## Questions
+This project uses Biome instead of ESLint and Prettier. Here's Biome's [list of rules](https://biomejs.dev/linter/rules/) and how to [configure them](https://biomejs.dev/linter/#configuration). Apps and projects can add their own `biome.json` if necessary.
 
-does the root pnpm lockfile have all nested packages?
+# TODO
 
-https://typescript-eslint.io/troubleshooting/typed-linting/monorepos
+Use [Sherif](https://github.com/QuiiBz/sherif) in CI to lint monorepos and ensure package versions are synced.
 
-still need to understand new eslint structure
+Stories in packages/ui and Storybook app in apps/storybook-ui https://turbo.build/repo/docs/guides/tools/storybook#more-tips
 
-should these packages be global?
-
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
-    "@vitejs/plugin-react-swc": "^3.5.0",
-    "vite": "^6.0.5"
-
-turbo build task
-
-understand turbo file in general
+TS Configs for react-app and react-library should both inherit from base, figure out correct props for each 

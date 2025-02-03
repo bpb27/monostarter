@@ -2,6 +2,11 @@
 	"$schema": "https://turbo.build/schema.json",
 	"ui": "tui",
 	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"inputs": ["$TURBO_DEFAULTS", ".env*"],
+			"outputs": ["dist/**"]
+		},
 		"lint": {
 			"dependsOn": ["^lint"]
 		},

@@ -1,0 +1,10 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "./react-app.json",
+	"compilerOptions": {
+		"lib": ["dom", "ES2015"],
+		"sourceMap": true,
+		"noEmit": false,
+		"allowImportingTsExtensions": false
+	}
+}

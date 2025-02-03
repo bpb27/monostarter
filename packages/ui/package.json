@@ -1,0 +1,29 @@
+{
+	"name": "@repo/ui",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"files": ["dist/**"],
+	"exports": {
+		"./checkbox": {
+			"import": "./dist/checkbox.js",
+			"types": "./dist/checkbox.d.ts"
+		}
+	},
+	"scripts": {
+		"dev": "tsc --watch --preserveWatchOutput",
+		"build": "tsc"
+	},
+	"dependencies": {
+		"@radix-ui/themes": "^3.2.0"
+	},
+	"devDependencies": {
+		"@repo/typescript-config": "workspace:*",
+		"@types/react": "^18.3.18",
+		"@types/react-dom": "^18.3.5"
+	},
+	"peerDependencies": {
+		"react": "^18.0.0",
+		"react-dom": "^18.0.0"
+	}
+}
