@@ -2,9 +2,15 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": "./react-app.json",
 	"compilerOptions": {
-		"lib": ["dom", "ES2015"],
-		"sourceMap": true,
+		"allowImportingTsExtensions": false,
+		"declaration": true,
+		"declarationMap": true,
+		"jsx": "react-jsx",
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"moduleResolution": "bundler",
 		"noEmit": false,
-		"allowImportingTsExtensions": false
+		"sourceMap": true,
+		"useDefineForClassFields": true
 	}
 }

@@ -8,11 +8,16 @@
 		"./checkbox": {
 			"import": "./dist/checkbox.js",
 			"types": "./dist/checkbox.d.ts"
+		},
+		"./input": {
+			"import": "./dist/input.js",
+			"types": "./dist/input.d.ts"
 		}
 	},
 	"scripts": {
+		"build": "tsc",
 		"dev": "tsc --watch --preserveWatchOutput",
-		"build": "tsc"
+		"lint": "biome check && tsc --noEmit"
 	},
 	"dependencies": {
 		"@radix-ui/themes": "^3.2.0"
