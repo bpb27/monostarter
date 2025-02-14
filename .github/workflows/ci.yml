@@ -40,14 +40,17 @@ jobs:
       - name: 🧹 Check formatting
         run: pnpm format
 
+      - name: 🏗 Build packages first
+        run: pnpm build --filter="./packages/*"
+
       - name: 🧹 Lint
         run: pnpm lint
 
       - name: 🧪 Test
         run: pnpm test
 
-      - name: 🏗 Build
-        run: pnpm build
+      - name: 🏗 Build apps
+        run: pnpm build --filter="./apps/*"
 
       - name: 🗑️ Cleanup turbo cache
         run: rm -rf ./node_modules/.cache/turbo
