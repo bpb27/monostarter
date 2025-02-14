@@ -1,17 +1,32 @@
+## About
+
+This is an example/starter for a Typescript monorepo with TurboRepo. It (will) contain a user app, admin app, Node.js server, and Storybook. It's deployable to AWS and uses GitHub Actions for CI/CD.
+
+This is a work in progress.
+
 ## Setup
 
-Ensure Node.js 22 or greater (recommend using asdf for version management)
-`npm i -g pnpm`
-`pnpm install`
+1. Use Node.js 22
+  - recommend using [asdf](https://github.com/asdf-vm/asdf) or [mise](https://github.com/jdx/mise) for version management
+2. `npm i -g pnpm@9.15.4` (if not installed already)
+3. `pnpm install`
+4. `pnpm dev`
 
-## Doing stuff
+## Common tasks
 
-Installing a new packages in a workspace (package or app). To install a root package, use the `-w` flag instead of a filter.
+Install a new package in a workspace (can be a package or app, name should match the workspace name defined in it's package.json).
 
 ```bash
-pnpm install -D eslint-plugin-prettier --filter=@repo/eslint-config
+pnpm install -D vitest --filter=@repo/user
 ```
 
+Install a new package at the root (be very judicious when adding root dependencies).
+
+```bash
+pnpm install -w typescript
+```
+
+## About
 This project uses Biome instead of ESLint and Prettier. Here's Biome's [list of rules](https://biomejs.dev/linter/rules/) and how to [configure them](https://biomejs.dev/linter/#configuration). Apps and projects can add their own `biome.json` if necessary.
 
 # TODO

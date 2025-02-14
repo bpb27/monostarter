@@ -37,13 +37,16 @@ jobs:
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: 🤠 Lint monorepo with Sherif
+        uses: QuiiBz/sherif@v1
+
       - name: 🧹 Check formatting
-        run: pnpm format
+        run: pnpm format:check
 
       - name: 🏗 Build packages first
         run: pnpm build --filter="./packages/*"
 
-      - name: 🧹 Lint
+      - name: 🧹 Lint with Biome and typecheck
         run: pnpm lint
 
       - name: 🧪 Test
