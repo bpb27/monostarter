@@ -4,15 +4,14 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "tsup src/index.ts --watch --onSuccess \"node dist/index.cjs\""
+		"dev": "tsup src/index.ts --watch --format esm --onSuccess \"node dist/index.js\""
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.13.8",
 		"@hono/trpc-server": "^0.3.4",
-		"@trpc/server": "^10.45.2",
+		"@repo/api": "workspace:*",
 		"hono": "^4.7.1",
-		"tsup": "^8.3.6",
-		"valibot": "1.0.0-rc.0"
+		"tsup": "^8.3.6"
 	},
 	"devDependencies": {
 		"@repo/typescript-config": "workspace:*",

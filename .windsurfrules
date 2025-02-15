@@ -1,0 +1,4 @@
+1. This is a monorepo using TurboRepo.
+2. I use pnpm.
+3. I want all external packages to be on the same version.
+4. When adding a new package (nowhere else in the monorepo) install the latest version.

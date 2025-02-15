@@ -26,18 +26,15 @@ importers:
       '@hono/trpc-server':
         specifier: ^0.3.4
         version: 0.3.4(@trpc/server@10.45.2)(hono@4.7.1)
-      '@trpc/server':
-        specifier: ^10.45.2
-        version: 10.45.2
+      '@repo/api':
+        specifier: workspace:*
+        version: link:../../packages/api
       hono:
         specifier: ^4.7.1
         version: 4.7.1
       tsup:
         specifier: ^8.3.6
         version: 8.3.6(@swc/core@1.10.12)(postcss@8.5.1)(typescript@5.7.3)
-      valibot:
-        specifier: 1.0.0-rc.0
-        version: 1.0.0-rc.0(typescript@5.7.3)
     devDependencies:
       '@repo/typescript-config':
         specifier: workspace:*
@@ -91,6 +88,22 @@ importers:
       vitest:
         specifier: ^3.0.5
         version: 3.0.5(@types/node@22.13.4)(happy-dom@17.1.0)
+
+  packages/api:
+    dependencies:
+      '@trpc/server':
+        specifier: ^10.45.2
+        version: 10.45.2
+      valibot:
+        specifier: 1.0.0-rc.0
+        version: 1.0.0-rc.0(typescript@5.7.3)
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      tsup:
+        specifier: ^8.0.2
+        version: 8.3.6(@swc/core@1.10.12)(postcss@8.5.1)(typescript@5.7.3)
 
   packages/typescript-config: {}
 
