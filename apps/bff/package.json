@@ -1,0 +1,21 @@
+{
+	"name": "bff",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "tsup src/index.ts --watch --onSuccess \"node dist/index.cjs\""
+	},
+	"dependencies": {
+		"@hono/node-server": "^1.13.8",
+		"@hono/trpc-server": "^0.3.4",
+		"@trpc/server": "^10.45.2",
+		"hono": "^4.7.1",
+		"tsup": "^8.3.6",
+		"valibot": "1.0.0-rc.0"
+	},
+	"devDependencies": {
+		"@repo/typescript-config": "workspace:*",
+		"@types/node": "^22.13.4"
+	}
+}

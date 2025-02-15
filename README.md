@@ -1,6 +1,8 @@
+[![CI](https://github.com/ryanswapp/monostarter/actions/workflows/ci.yml/badge.svg)](https://github.com/bpb27/monostarter/actions/workflows/ci.yml)
+
 ## About
 
-This is an example/starter for a Typescript monorepo with TurboRepo. It (will) contain a user app, admin app, Node.js server, and Storybook. It's deployable to AWS and uses GitHub Actions for CI/CD.
+This is an example/starter for a Typescript monorepo with TurboRepo. Eventually it will contain a user app, admin app, Node.js server, and Storybook, deployable to AWS with GitHub actions for CI/CD.
 
 This is a work in progress.
 
@@ -26,63 +28,18 @@ Install a new package at the root (be very judicious when adding root dependenci
 pnpm install -w typescript
 ```
 
-## About
-This project uses Biome instead of ESLint and Prettier. Here's Biome's [list of rules](https://biomejs.dev/linter/rules/) and how to [configure them](https://biomejs.dev/linter/#configuration). Apps and projects can add their own `biome.json` if necessary.
+## Decisions
 
-# TODO
+TurboRepo is the best tool available for managing a TS monorepo. It's been adopted by Vercel and it's built on the standard workspace functionality of package managers. It helps force you into distinct module/service and app boundaries, which is hugely beneficial in the long run (avoid the monolith monster). But it allows you to share code without needing separate repos or publishing packages (e.g. types, API clients, component libraries). And it's best feature is that it makes CI extremely fast by recognizing what work needs to be performed based on the actual code changes.
 
-Node server breakdown
-/packages/db - creates db client / connection pool, stores migration files
-/packages/api - depends on db, sets up TRPC router, exports Router type
-/apps/web - depends on api, imports Router type, uses it in TRPC client
-/apps/server - depends on api, mounts TRPC api at a route
-/apps/migrator - depends on db, runs migrations
+Vite + React Router 7 (library version) + client only FE is great. The NextJS and Remix push to move rendering server side is still new and changing, but doesn't offer a lot of discernible user value compared to a fast API, client code-splitting, and parallel rendering with outlets. The builds and deployments are super simple (S3 + CloudFront) and lightening fast. And you get to avoid all the cognitive and code complexity introduced by the server/client React divide. If SSR/RSC becomes extremely compelling in the future, it's currently supported by React Router with a few deployment modifications.
 
-Use [Sherif](https://github.com/QuiiBz/sherif) in CI to lint monorepos and ensure package versions are synced.
+That said, there's still a place for a BFF (backend for frontend), but having a fully featured Node.js server is much more powerful, customizable, and feature-rich than what you get from Next.js. TRPC + Keysley is the ultimate TS DX, with full typesafety from DB queries to API routes to React components.
 
-Stories in packages/ui and Storybook app in apps/storybook-ui https://turbo.build/repo/docs/guides/tools/storybook#more-tips
+Biome is like ESLint + Prettier in one tool with super easy configuration and speed (written in Rust). ESLint 9 is wildly different than prior versions, difficult to use, and relatively slow. And Prettier is great but it's not directly integrated with ESLint. Here's Biome's [list of rules](https://biomejs.dev/linter/rules/) and how to [configure them](https://biomejs.dev/linter/#configuration). It's fast enough to run from the root for now, but apps and projects can add their own `biome.json` and integrate into Turbo if necessary.
 
-Node app
-
-## Later speed improvements
-
-1. TSConfig "incremental" and "composite"
-2. Tsup instead of tsc
-
-## Pushing static builds
-
-Deploys to S3 plus Cloudfront.
-Invalidates cache on index.html so the new app version is served whenever the page reloads.
-Chunks of code have hashed names, so new build chunks and old build chunks won't collide.
-User on an old build can still navigate to new chunks and be fine.
-Should expire and remove old builds after a safe threshold (a week or so) to save space.
-
-## SSR + RSC
-
-Doesn't really make sense for highly interactive, data intensive dashboards.
-Very little content is static.
-Huge complexity overhead, both in deployment, build, code organization, and cognitive load.
-Makes testing, Storybook, reusability harder.
-Next and Remix servers don't offer full BFF capabilities like being a multi-app API gateway, cache, realtime, DB layer.
-Still have plenty of loading times and states, just written differently.
-Having a performant API will lead to the same snappy performance, and is a better investment overall.
-Server and client components can't share state or render each other in the normal way, will lead to bugs and frustration.
-So many gotchas and footguns and random named exports that mean special things (but no autocomplete to tell you)
-
-## Deployment
-
-Turborepo isn't really involved in deployment.
-The only thing relevant thing it does is compile the builds.
-It is very relevant for CI.
-There should be a Github action for linting and testing - these will be very fast b/c unchanged sections will hit the cache.
-Can also have a Sherif action.
-Is build an action?
-
-Probably a CI check that all the builds actually compile.
-Builds can be remotely cached, so the deploy step can reuse.
-
-Deploy step will build again, because the order is important (at least for dev builds).
-Deploy Node app, get URL.
-Deploy FEs with api URL injected.
-
-AWS CDK should help, also look into constructs (higher level AWS classes that represent blocks of infra).
+Smaller decisions:
+- Valibot over Zod because it's much more performant and has a smaller footprint
+- Radix because that's the standard choice
+- Framer Motion? because it's non-invasive animation
+- Panda CSS? because it seems cool (maybe not though)
