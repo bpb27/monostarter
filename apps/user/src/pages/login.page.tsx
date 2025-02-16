@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import * as v from "valibot";
 import { ThemeButton } from "../components/theme-button";
 import { atomUser } from "../state";
-import { useForm } from "../utls/use-form";
+import { useForm } from "../utils/use-form";
 
 const LoginForm = v.strictObject({
 	email: v.pipe(v.string(), v.nonEmpty("Email is required"), v.email("Email must be a valid address")),
