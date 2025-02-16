@@ -13,11 +13,12 @@ export const Input = ({ error, label, name, size = "3", ...rest }: InputProps) =
 	const [showError, setShowError] = useState(false);
 	return (
 		<Flex direction="column" gap="4px">
-			<Text as="label" weight="bold" size="2">
+			<Text as="label" weight="bold" size="2" htmlFor={name}>
 				{label}
 			</Text>
 			<TextField.Root
 				size={size}
+				id={name}
 				name={name}
 				onFocus={() => setShowError(false)}
 				onBlur={() => setShowError(true)}

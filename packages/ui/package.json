@@ -5,6 +5,10 @@
 	"type": "module",
 	"files": ["dist/**"],
 	"exports": {
+		"./box": {
+			"import": "./dist/box.js",
+			"types": "./dist/box.d.ts"
+		},
 		"./checkbox": {
 			"import": "./dist/checkbox.js",
 			"types": "./dist/checkbox.d.ts"

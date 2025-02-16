@@ -27,7 +27,6 @@ export const useForm = <
 			acc[typedKey] = {
 				error: issues && typedKey in issues ? issues[typedKey]?.[0] : undefined,
 				name: typedKey,
-				id: typedKey,
 				value: formData[typedKey],
 				onChange: (e) => update(typedKey, e.target.value as TInitial[typeof typedKey]),
 			};
@@ -37,7 +36,6 @@ export const useForm = <
 			[K in keyof TInitial]: {
 				error: string | undefined;
 				name: K;
-				id: K;
 				value: TInitial[K];
 				onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 			};

@@ -1,9 +1,11 @@
+import { Box } from "@repo/ui/box";
 import { Input } from "@repo/ui/input";
-import { useMemo } from "react";
+import { useAtom } from "jotai";
 import { Link } from "react-router";
 import * as v from "valibot";
+import { ThemeButton } from "../components/theme-button";
+import { atomUser } from "../state";
 import { useForm } from "../utls/use-form";
-import { useLocalStorage } from "../utls/use-local-storage";
 
 const LoginForm = v.strictObject({
 	email: v.pipe(v.string(), v.nonEmpty("Email is required"), v.email("Email must be a valid address")),
@@ -12,18 +14,13 @@ const LoginForm = v.strictObject({
 });
 
 export const LoginPage = () => {
-	const [user, setUser] = useLocalStorage("user");
-	const [theme, setTheme] = useLocalStorage("theme");
+	const [user, setUser] = useAtom(atomUser);
 	const { fields, formData, isValid } = useForm(LoginForm, { email: "", password: "", age: 0 });
-	// biome-ignore lint/correctness/useExhaustiveDependencies: only check on load
-	const alreadyLoggedIn = useMemo(() => !!user, []);
 	return (
-		<div style={{ margin: "24px" }}>
-			<button onClick={() => setTheme(theme === "light" ? "dark" : "light")} type="button">
-				Theme
-			</button>
+		<Box m="24px">
+			<ThemeButton />
 			<h1>Please login</h1>
-			{alreadyLoggedIn && <Link to="/">You are already logged in.</Link>}
+			{!!user && <Link to="/">You are already logged in.</Link>}
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
@@ -37,12 +34,12 @@ export const LoginPage = () => {
 					}
 				}}
 			>
-				<div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+				<Box display="flex" flexDirection="column" gap="8px">
 					<Input {...fields.email} label="Email" />
 					<Input {...fields.password} label="Password" type="password" />
 					<button type="submit">Submit</button>
-				</div>
+				</Box>
 			</form>
-		</div>
+		</Box>
 	);
 };

@@ -4,17 +4,20 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "tsup src/index.ts --watch --format esm --onSuccess \"node dist/index.js\""
+		"build": "tsup src/index.ts",
+		"dev": "tsup src/index.ts --watch --onSuccess \"node dist/index.js\""
 	},
 	"dependencies": {
-		"@hono/node-server": "^1.13.8",
-		"@hono/trpc-server": "^0.3.4",
 		"@repo/api": "workspace:*",
-		"hono": "^4.7.1",
+		"@trpc/server": "11.0.0-rc.768",
+		"cors": "^2.8.5",
+		"express": "^5.0.1",
 		"tsup": "^8.3.6"
 	},
 	"devDependencies": {
 		"@repo/typescript-config": "workspace:*",
+		"@types/cors": "^2.8.17",
+		"@types/express": "^5.0.0",
 		"@types/node": "^22.13.4"
 	}
 }

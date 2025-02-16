@@ -5,6 +5,8 @@
 - CSS
 - Storybook
 - Remote cache
+- Jotai
+- reload bff app on package change
 
 # TODO
 
