@@ -3,6 +3,7 @@ node_modules
 
 # Build Outputs
 dist
+tsup.config.bundled*.mjs
 
 # Turbo
 .turbo

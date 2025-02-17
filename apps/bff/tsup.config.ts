@@ -8,5 +8,4 @@ export default defineConfig({
 	treeshake: true,
 	sourcemap: true,
 	outDir: "dist",
-	noExternal: [/@repo\/.*/], // TODO: this doesn't really work
 });
