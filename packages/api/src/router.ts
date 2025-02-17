@@ -23,7 +23,7 @@ export const appRouter = router({
 		.output(validator(v.object({ greeting: v.string() })))
 		.query(({ input }) => {
 			return {
-				greeting: `${input.name}, welcome!`,
+				greeting: `${input.name}, welcome pal!`,
 			};
 		}),
 });
