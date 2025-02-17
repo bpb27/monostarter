@@ -4,7 +4,7 @@ import { useAtom } from "jotai";
 import { Link } from "react-router";
 import * as v from "valibot";
 import { ThemeButton } from "../components/theme-button";
-import { atomUser } from "../state";
+import { atomUser } from "../core/state";
 import { useForm } from "../utils/use-form";
 
 const LoginForm = v.strictObject({

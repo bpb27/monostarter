@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { atomTheme } from "../state";
+import { atomTheme } from "../core/state";
 
 export const ThemeButton = () => {
 	const [theme, setTheme] = useAtom(atomTheme);
