@@ -1,0 +1,24 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudformation:*",
+                "ecr:*",
+                "ssm:*",
+                "s3:*",
+                "iam:*",
+                "lambda:*",
+                "apigateway:*",
+                "cloudfront:*",
+                "route53:*",
+                "ec2:*",
+                "ecs:*",
+                "logs:*",
+                "elasticloadbalancing:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
