@@ -46,7 +46,7 @@ export class AppStack extends cdk.Stack {
 				environment: {
 					NODE_ENV: "production",
 					PORT: "3000",
-					NODE_VERSION: "22"
+					NODE_VERSION: "22",
 				},
 				logDriver: ecs.LogDrivers.awsLogs({
 					streamPrefix: "bff",

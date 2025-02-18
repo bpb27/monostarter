@@ -1,6 +1,6 @@
 {
-	"name": "@monostarter/infrastructure",
-	"version": "0.0.1",
+	"name": "@repo/infrastructure",
+	"version": "0.0.0",
 	"private": true,
 	"scripts": {
 		"build": "tsc",

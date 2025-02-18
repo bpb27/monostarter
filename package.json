@@ -13,10 +13,7 @@
 		"format:check": "biome check"
 	},
 	"packageManager": "pnpm@9.15.4",
-	"workspaces": [
-		"apps/*",
-		"packages/*"
-	],
+	"workspaces": ["apps/*", "packages/*"],
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"turbo": "^2.4.0",
