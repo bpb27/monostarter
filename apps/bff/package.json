@@ -6,7 +6,9 @@
 	"scripts": {
 		"dev": "pnpm run dev:build & pnpm run dev:watch",
 		"dev:build": "tsup --watch",
-		"dev:watch": "nodemon --watch dist --watch ../../packages/api/dist dist/index.js"
+		"dev:watch": "nodemon --watch dist --watch ../../packages/api/dist dist/index.js",
+		"build": "tsup",
+		"start": "node dist/index.js"
 	},
 	"dependencies": {
 		"@dotenvx/dotenvx": "^1.36.0",

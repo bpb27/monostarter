@@ -17,7 +17,7 @@ COPY packages ./packages
 RUN pnpm install --frozen-lockfile
 
 # Build the BFF
-RUN pnpm --filter @monostarter/bff build
+RUN pnpm --filter bff build
 
 # Production stage
 FROM node:22-alpine
@@ -43,4 +43,4 @@ ENV NODE_ENV=production
 EXPOSE 3000
 
 # Start the application
-CMD ["pnpm", "--filter", "@monostarter/bff", "start"]
+CMD ["pnpm", "--filter", "bff", "start"]
