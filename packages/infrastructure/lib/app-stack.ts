@@ -109,13 +109,40 @@ export class AppStack extends cdk.Stack {
 			websiteIndexDocument: "index.html",
 			websiteErrorDocument: "index.html",
 			publicReadAccess: false,
+			// Enable versioning to keep old assets
+			versioned: true,
+			lifecycleRules: [
+				{
+					noncurrentVersionExpiration: cdk.Duration.days(3),
+				},
+			],
 		});
 
 		// Create CloudFront distribution
+		// Create a custom cache policy for static assets
+		const assetsCachePolicy = new cloudfront.CachePolicy(this, "AssetsCachePolicy", {
+			comment: "Cache static assets for 1 hour",
+			defaultTtl: cdk.Duration.hours(1),
+			minTtl: cdk.Duration.minutes(5),
+			maxTtl: cdk.Duration.hours(24),
+			queryStringBehavior: cloudfront.CacheQueryStringBehavior.none(),
+			headerBehavior: cloudfront.CacheHeaderBehavior.none(),
+			cookieBehavior: cloudfront.CacheCookieBehavior.none(),
+		});
+
 		const distribution = new cloudfront.Distribution(this, "WebAppDistribution", {
 			defaultBehavior: {
 				origin: new origins.S3Origin(bucket),
 				viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+				cachePolicy: assetsCachePolicy,
+			},
+			additionalBehaviors: {
+				// Don't cache HTML files
+				"*.html": {
+					origin: new origins.S3Origin(bucket),
+					viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+					cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+				},
 			},
 			defaultRootObject: "index.html",
 			errorResponses: [
