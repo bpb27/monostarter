@@ -5,5 +5,9 @@ import { atomTheme } from "./state";
 
 export const ThemeProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
 	const theme = useAtomValue(atomTheme);
-	return <Theme appearance={theme}>{children}</Theme>;
+	return (
+		<Theme appearance={theme} accentColor="iris">
+			{children}
+		</Theme>
+	);
 };

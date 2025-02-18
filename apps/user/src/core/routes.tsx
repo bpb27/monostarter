@@ -1,9 +1,10 @@
 import { useAtomValue } from "jotai";
 import type { FC } from "react";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router";
+import { Outlet, type RouteObject, RouterProvider, createBrowserRouter } from "react-router";
 import { AboutPage } from "../pages/about.page";
 import { LoginPage } from "../pages/login.page";
 import { WelcomePage } from "../pages/welcome.page";
+import { type PathParams, applyPathParams } from "../utils/routing";
 import { atomUser } from "./state";
 
 const Protected: FC = () => {
@@ -11,9 +12,16 @@ const Protected: FC = () => {
 	return !user ? <LoginPage /> : <Outlet />;
 };
 
-const router = createBrowserRouter([
+export const ROUTES = {
+	HOME: "/" as const,
+	WELCOME: "/welcome" as const,
+	ABOUT: "/about" as const,
+	LOGIN: "/login" as const,
+} as const;
+
+const routes = [
 	{
-		path: "/",
+		path: ROUTES.HOME,
 		element: <Protected />,
 		children: [
 			{
@@ -21,19 +29,29 @@ const router = createBrowserRouter([
 				element: <WelcomePage />,
 			},
 			{
-				path: "/welcome",
+				path: ROUTES.WELCOME,
 				element: <WelcomePage />,
 			},
 			{
-				path: "/about",
+				path: ROUTES.ABOUT,
 				element: <AboutPage />,
 			},
 		],
 	},
 	{
-		path: "/login",
+		path: ROUTES.LOGIN,
 		element: <LoginPage />,
 	},
-]);
+] satisfies RouteObject[];
+
+const router = createBrowserRouter(routes);
 
 export const RoutesProvider: FC = () => <RouterProvider router={router} />;
+
+export type ClientRoute = (typeof ROUTES)[keyof typeof ROUTES];
+
+export function linkTo<Path extends ClientRoute>(path: Path): string;
+export function linkTo<Path extends ClientRoute>(path: Path, params: PathParams<Path>): string;
+export function linkTo<Path extends ClientRoute>(path: Path, params?: PathParams<Path>): string {
+	return applyPathParams(path, params);
+}

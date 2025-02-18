@@ -9,9 +9,9 @@
 			"import": "./dist/box.js",
 			"types": "./dist/box.d.ts"
 		},
-		"./checkbox": {
-			"import": "./dist/checkbox.js",
-			"types": "./dist/checkbox.d.ts"
+		"./button": {
+			"import": "./dist/button.js",
+			"types": "./dist/button.d.ts"
 		},
 		"./input": {
 			"import": "./dist/input.js",

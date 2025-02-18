@@ -42,5 +42,5 @@ export const useForm = <
 		},
 	);
 
-	return { fields, isValid: result.success, formData };
+	return { fields, formData, formIsValid: result.success };
 };

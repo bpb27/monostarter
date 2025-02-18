@@ -1,43 +1,46 @@
 import { Box } from "@repo/ui/box";
+import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
 import { useAtom } from "jotai";
-import { Link } from "react-router";
 import * as v from "valibot";
+import { Link } from "../components/link";
 import { ThemeButton } from "../components/theme-button";
+import { ROUTES } from "../core/routes";
 import { atomUser } from "../core/state";
 import { useForm } from "../utils/use-form";
 
 const LoginForm = v.strictObject({
 	email: v.pipe(v.string(), v.nonEmpty("Email is required"), v.email("Email must be a valid address")),
 	password: v.pipe(v.string(), v.nonEmpty("Password is required"), v.minLength(8, "Password must be 8 characters")),
-	age: v.number(),
 });
 
 export const LoginPage = () => {
 	const [user, setUser] = useAtom(atomUser);
-	const { fields, formData, isValid } = useForm(LoginForm, { email: "", password: "", age: 0 });
+	const { fields, formData, formIsValid } = useForm(LoginForm, { email: "", password: "" });
 	return (
-		<Box m="24px">
+		<Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
 			<ThemeButton />
-			<h1>Please login</h1>
-			{!!user && <Link to="/">You are already logged in.</Link>}
+			<h1>Login</h1>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
-					if (isValid) {
+					if (formIsValid) {
 						setUser({ email: formData.email });
-						if (window.location.pathname.includes("/login")) {
-							window.location.replace("/");
+						if (window.location.pathname.includes(ROUTES.LOGIN)) {
+							window.location.replace(ROUTES.HOME);
 						} else {
 							window.location.reload();
 						}
 					}
 				}}
 			>
-				<Box display="flex" flexDirection="column" gap="8px">
+				<Box display="flex" flexDirection="column" gap="16px">
 					<Input {...fields.email} label="Email" />
 					<Input {...fields.password} label="Password" type="password" />
-					<button type="submit">Submit</button>
+					<Button type="submit" size="3">
+						Submit
+					</Button>
+					{!!user && <Link to={ROUTES.HOME}>You are already logged in.</Link>}
 				</Box>
 			</form>
 		</Box>

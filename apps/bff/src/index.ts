@@ -14,8 +14,7 @@ const server = app.listen(3000, () => {
 	console.log("Server started on port 3000");
 });
 
-// allows server to restart when running nodemon in dev mode
-
+// Handle cleanup
 process.on("SIGTERM", () => {
 	console.log("SIGTERM received, shutting down...");
 	server.close(() => {
