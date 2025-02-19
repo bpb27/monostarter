@@ -1,4 +1,12 @@
 1. This is a monorepo using TurboRepo.
 2. I use pnpm.
+3. I'm using Node 22.
 3. I want all external packages to be on the same version.
 4. When adding a new package (nowhere else in the monorepo) install the latest version.
+5. Remember that new monorepo apps and packages should
+  - use @repo/typescript-config
+  - don't need to install typescript (it's in the root)
+  - should following the workspace naming convention @repo/the-new-thing
+  - stay in sync with other third-party package versions
+6. Packages should use tsc for dev and build scripts whenever possible.
+7. Packages should use exports in package.json rather than main or module.
