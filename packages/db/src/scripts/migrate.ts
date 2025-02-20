@@ -4,10 +4,7 @@ import { FileMigrationProvider, Migrator } from "kysely";
 import { db } from "../database.js";
 
 async function migrate(direction: "migrateToLatest" | "migrateUp" | "migrateDown") {
-	const migrationFolder = path.join(
-	path.dirname(new URL(import.meta.url).pathname),
-	"../migrations"
-);
+	const migrationFolder = path.join(path.dirname(new URL(import.meta.url).pathname), "../migrations");
 	const migrator = new Migrator({
 		db,
 		provider: new FileMigrationProvider({ fs, path, migrationFolder }),
