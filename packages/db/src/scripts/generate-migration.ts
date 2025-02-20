@@ -9,7 +9,7 @@ if (typeof name !== "string") {
 }
 
 const contents = `
-import type { MigrationDbState } from "../scripts/migration-types";
+import type { MigrationDbState } from "../scripts/migration-types.js";
 
 export async function up(db: MigrationDbState): Promise<void> {
   await db.insertInto("fake").values([]).execute();
@@ -22,7 +22,7 @@ export async function down(db: MigrationDbState): Promise<void> {
 `;
 
 const filePath = path.join(
-	__dirname,
+	path.dirname(new URL(import.meta.url).pathname),
 	"../migrations",
 	`${new Date().toISOString().replace(/[\D]/g, "")}_${name.replace(/-/g, "_")}.ts`,
 );
