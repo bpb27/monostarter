@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import { FileMigrationProvider, Migrator } from "kysely";
-import { db } from "../index";
+import { db } from "../database.js";
 
 async function migrate(direction: "migrateToLatest" | "migrateUp" | "migrateDown") {
 	const migrationFolder = path.join(__dirname, "../migrations");

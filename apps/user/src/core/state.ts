@@ -4,6 +4,6 @@ export const atomTheme = atomWithStorage<"light" | "dark" | "inherit">("theme", 
 	getOnInit: true,
 });
 
-export const atomUser = atomWithStorage<{ email: string } | undefined>("user", undefined, undefined, {
+export const atomUser = atomWithStorage<{ id: string } | undefined>("user", undefined, undefined, {
 	getOnInit: true,
 });

@@ -3,8 +3,8 @@ import path from "node:path";
 
 const name = process.argv[2];
 if (typeof name !== "string") {
-	console.error("Provide a migration name, e.g.");
-	console.log("pnpm migration adding_alt_id_column_to_users_table");
+	console.error("Please provide a name for the migration");
+	console.error("db:generate:migration add_fun_column_to_table");
 	process.exit(1);
 }
 
@@ -21,5 +21,9 @@ export async function down(db: MigrationDbState): Promise<void> {
 }
 `;
 
-const filePath = path.join(__dirname, "../migrations", `${new Date().toISOString().replace(/[\D]/g, "")}_${name}.ts`);
+const filePath = path.join(
+	__dirname,
+	"../migrations",
+	`${new Date().toISOString().replace(/[\D]/g, "")}_${name.replace(/-/g, "_")}.ts`,
+);
 fs.writeFileSync(filePath, contents);

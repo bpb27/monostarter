@@ -1,5 +1,5 @@
 import { sql } from "kysely";
-import type { MigrationDbState } from "../scripts/migration-types";
+import type { MigrationDbState } from "../scripts/migration-types.js";
 
 export async function up(db: MigrationDbState): Promise<void> {
 	await db.schema
