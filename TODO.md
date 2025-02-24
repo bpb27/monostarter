@@ -8,6 +8,14 @@
 
 # TODO
 
+DB package should expose createDbPool with a connection string arg.
+BFF should create a pool and put it in TRPC context.
+API package should use db.context rather than accessing db package directly.
+BFF should kill pool on restarts.
+
+QueryParams hook.
+Query params schema in route config.
+
 Stories in packages/ui and Storybook app in apps/storybook-ui https://turbo.build/repo/docs/guides/tools/storybook#more-tips
 
 https://turbo.build/repo/docs/guides/generating-code

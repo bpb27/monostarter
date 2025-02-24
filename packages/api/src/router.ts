@@ -38,11 +38,6 @@ export const appRouter = router({
 			if (!passwordValid) throw new Error("Invalid password");
 			return { id: user.id };
 		}),
-	hello: publicProcedure.input(validator(v.object({ name: v.string() }))).query(({ input }) => {
-		return {
-			greeting: `${input.name}, welcome pal!`,
-		};
-	}),
 });
 
 export type AppRouter = typeof appRouter;

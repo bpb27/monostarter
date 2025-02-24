@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { ApiProvider } from "./core/api.tsx";
-import { RoutesProvider } from "./core/routes.tsx";
+import { RoutesProvider } from "./core/router.tsx";
 import { ThemeProvider } from "./core/theme.tsx";
 import "@radix-ui/themes/styles.css";
 

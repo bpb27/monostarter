@@ -10,12 +10,7 @@ export const ApiProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
 	const [queryClient] = useState(() => new QueryClient());
 	const [trpcClient] = useState(() =>
 		api.createClient({
-			links: [
-				loggerLink(),
-				httpBatchLink({
-					url: "http://localhost:3000/trpc",
-				}),
-			],
+			links: [loggerLink(), httpBatchLink({ url: "http://localhost:3000/trpc" })],
 		}),
 	);
 
