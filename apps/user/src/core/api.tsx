@@ -1,4 +1,4 @@
-import type { AppRouter } from "@repo/api";
+import type { AppRouter } from "@repo/api-types";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";

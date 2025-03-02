@@ -1,7 +1,8 @@
-import { appRouter } from "@repo/api";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import cors from "cors";
 import express from "express";
+import { type AppRouter, appRouter } from "./api/router.js";
+export type { AppRouter };
 
 const app = express();
 

@@ -1,0 +1,9 @@
+{
+	"name": "@repo/api-types",
+	"version": "0.0.0",
+	"private": true,
+	"files": ["index.ts"],
+	"devDependencies": {
+		"@repo/bff": "workspace:*"
+	}
+}

@@ -1,3 +1,11 @@
+Simpler setup:
+apps/bff has all the api and db stuff
+apps/bff exports the app router type
+packages/api-types imports and re-exports the app router type
+apps/user imports from packages
+need to verify that turborepo catches the changes
+but probably don't need to add a devDependency
+
 # Priority
 - packages/db
 - ENVs

@@ -1,5 +1,5 @@
 {
-	"name": "user",
+	"name": "@repo/user",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -12,7 +12,6 @@
 	},
 	"dependencies": {
 		"@radix-ui/themes": "^3.2.0",
-		"@repo/api": "workspace:*",
 		"@repo/ui": "workspace:*",
 		"@tanstack/react-query": "^5.66.0",
 		"@trpc/client": "11.0.0-rc.768",
@@ -24,6 +23,7 @@
 		"valibot": "1.0.0-rc.0"
 	},
 	"devDependencies": {
+		"@repo/api-types": "workspace:*",
 		"@repo/typescript-config": "workspace:*",
 		"@testing-library/react": "^16.2.0",
 		"@types/react": "^18.3.18",

@@ -1,7 +1,7 @@
-import { matchesPassword } from "@repo/db/auth";
-import { db } from "@repo/db/database";
 import { initTRPC } from "@trpc/server";
 import * as v from "valibot";
+import { db } from "../database/database.js";
+import { matchesPassword } from "../database/utils/hash_password.js";
 
 const t = initTRPC.context().create({
 	errorFormatter(opts) {
