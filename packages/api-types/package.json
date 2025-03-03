@@ -13,7 +13,7 @@
 		"dev": "tsc --watch --preserveWatchOutput"
 	},
 	"devDependencies": {
-		"@trpc/server": "11.0.0-rc.768",
-		"@repo/typescript-config": "workspace:*"
+		"@repo/typescript-config": "workspace:*",
+		"@trpc/server": "11.0.0-rc.768"
 	}
 }
