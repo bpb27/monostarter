@@ -1,29 +1,29 @@
 {
-	"$schema": "https://turbo.build/schema.json",
-	"ui": "tui",
-	"tasks": {
-		"build": {
-			"dependsOn": ["^build"],
-			"inputs": ["$TURBO_DEFAULTS", ".env*"],
-			"outputs": ["dist/**"]
-		},
-		"bff:build": {
-			"outputs": ["apps/bff/dist/**"]
-		},
-		"generate-types": {
-			"dependsOn": ["bff:build"],
-			"outputs": ["packages/api-types/router.ts"]
-		},
-		"lint": {
-			"dependsOn": ["^lint"]
-		},
-		"test": {
-			"dependsOn": ["^test"]
-		},
-		"dev": {
-			"dependsOn": ["^generate-types"],
-			"cache": false,
-			"persistent": true
-		}
-	}
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULTS", ".env*"],
+      "outputs": ["dist/**"]
+    },
+    "bff:build": {
+      "outputs": ["apps/bff/dist/**"]
+    },
+    "generate-types": {
+      "dependsOn": ["bff:build"],
+      "outputs": ["packages/api-types/router.ts"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "test": {
+      "dependsOn": ["^test"]
+    },
+    "dev": {
+      "dependsOn": ["^generate-types"],
+      "cache": false,
+      "persistent": true
+    }
+  }
 }

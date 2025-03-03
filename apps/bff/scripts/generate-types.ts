@@ -24,23 +24,23 @@ const outputFile = resolve(__dirname, `../../../${target}`);
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function generateTypes(retries = 6, delayMs = 500): Promise<void> {
-	for (let attempt = 1; attempt <= retries; attempt++) {
-		try {
-			await wait(delayMs);
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      await wait(delayMs);
 
-			const content = readFileSync(inputFile, "utf-8");
-			writeFileSync(outputFile, content);
+      const content = readFileSync(inputFile, "utf-8");
+      writeFileSync(outputFile, content);
 
-			console.log(`✅ API type generation succeeded: ${target} (attempt ${attempt}/${retries})`);
-			return;
-		} catch (error) {
-			if (attempt === retries) {
-				console.error(`❌ API type generation failed: ${retries} attempts: ${(error as Error).message}`);
-				process.exit(1);
-			}
-			console.log(`⚠️ API type generation retrying: ${attempt}/${retries} failed...`);
-		}
-	}
+      console.log(`✅ API type generation succeeded: ${target} (attempt ${attempt}/${retries})`);
+      return;
+    } catch (error) {
+      if (attempt === retries) {
+        console.error(`❌ API type generation failed: ${retries} attempts: ${(error as Error).message}`);
+        process.exit(1);
+      }
+      console.log(`⚠️ API type generation retrying: ${attempt}/${retries} failed...`);
+    }
+  }
 }
 
 generateTypes();

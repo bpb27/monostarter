@@ -8,14 +8,14 @@ import { ROUTES } from "../core/routes";
 import { atomUser } from "../core/state";
 
 export const WelcomePage = () => {
-	const [user, setUser] = useAtom(atomUser);
-	const { data } = api.users.getById.useQuery({ id: user?.id ?? "" });
-	return (
-		<Box display="flex" flexDirection="column" gap="8px">
-			<h1>Welcome {data?.firstName}</h1>
-			<ThemeButton />
-			<Link to={ROUTES.ABOUT}>About</Link>
-			<Button onClick={() => setUser(undefined)}>Log out</Button>
-		</Box>
-	);
+  const [user, setUser] = useAtom(atomUser);
+  const { data } = api.users.getById.useQuery({ id: user?.id ?? "" });
+  return (
+    <Box display="flex" flexDirection="column" gap="8px">
+      <h1>Welcome {data?.firstName}</h1>
+      <ThemeButton />
+      <Link to={ROUTES.ABOUT}>About</Link>
+      <Button onClick={() => setUser(undefined)}>Log out</Button>
+    </Box>
+  );
 };

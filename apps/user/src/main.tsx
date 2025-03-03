@@ -9,15 +9,15 @@ const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element missing");
 
 const App = () => (
-	<ApiProvider>
-		<ThemeProvider>
-			<RoutesProvider />
-		</ThemeProvider>
-	</ApiProvider>
+  <ApiProvider>
+    <ThemeProvider>
+      <RoutesProvider />
+    </ThemeProvider>
+  </ApiProvider>
 );
 
 createRoot(rootElement).render(
-	<StrictMode>
-		<App />
-	</StrictMode>,
+  <StrictMode>
+    <App />
+  </StrictMode>,
 );
