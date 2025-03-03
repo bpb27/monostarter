@@ -24,7 +24,7 @@
     "lint": "biome check && tsc --noEmit"
   },
   "dependencies": {
-    "@radix-ui/themes": "^3.2.0"
+    "@radix-ui/themes": "^3.2.1"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",

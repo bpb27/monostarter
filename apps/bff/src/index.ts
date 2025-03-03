@@ -8,8 +8,8 @@ const app = express();
 
 app.use(cors());
 
-app.get("/hello", (_req, res) => {
-  res.json({ greeting: "Hello World!" });
+app.get("/status", (_req, res) => {
+  res.json({ ok: true });
 });
 
 app.use("/trpc", trpcExpress.createExpressMiddleware({ router: appRouter }));
