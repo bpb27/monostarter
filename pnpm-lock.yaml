@@ -139,9 +139,12 @@ importers:
 
   packages/api-types:
     devDependencies:
-      '@repo/bff':
+      '@repo/typescript-config':
         specifier: workspace:*
-        version: link:../../apps/bff
+        version: link:../typescript-config
+      '@trpc/server':
+        specifier: 11.0.0-rc.768
+        version: 11.0.0-rc.768(typescript@5.8.2)
 
   packages/typescript-config: {}
 

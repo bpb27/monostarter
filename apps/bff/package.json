@@ -3,16 +3,11 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"exports": {
-		".": {
-			"import": "./dist/index.js",
-			"types": "./dist/index.d.ts"
-		}
-	},
 	"scripts": {
-		"dev": "tsup --dts --watch --onSuccess=\"node ./dist\"",
+		"dev": "tsup --dts --watch --onSuccess=\"tsx ./scripts/generate-types.ts && node ./dist\"",
 		"build": "tsup --dts",
 		"start": "node dist/index.js",
+		"generate-types": "tsx ./scripts/generate-types.ts",
 		"db:introspect": "kysely-codegen --dialect postgres --camel-case --env-file .env --out-file ./src/database/schema.ts",
 		"db:migrate:latest": "tsx ./src/database/scripts/migrate.ts -- direction=migrateToLatest",
 		"db:migrate:up": "tsx ./src/database/scripts/migrate.ts -- direction=migrateUp",

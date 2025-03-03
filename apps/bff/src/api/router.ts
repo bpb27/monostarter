@@ -30,13 +30,13 @@ export const appRouter = router({
 		.mutation(async ({ input }) => {
 			const user = await db
 				.selectFrom("users")
-				.select(["id", "passwordHash"])
+				.select(["id", "passwordHash", "email"])
 				.where("email", "=", input.email)
 				.executeTakeFirst();
 			if (!user) throw new Error("User not found");
 			const passwordValid = await matchesPassword(input.password, user.passwordHash);
 			if (!passwordValid) throw new Error("Invalid password");
-			return { id: user.id };
+			return { id: user.id, email: user.email, isRad: false };
 		}),
 });
 
