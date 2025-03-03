@@ -1,38 +1,38 @@
 {
-	"name": "@repo/ui",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"files": ["dist/**"],
-	"exports": {
-		"./box": {
-			"import": "./dist/box.js",
-			"types": "./dist/box.d.ts"
-		},
-		"./button": {
-			"import": "./dist/button.js",
-			"types": "./dist/button.d.ts"
-		},
-		"./input": {
-			"import": "./dist/input.js",
-			"types": "./dist/input.d.ts"
-		}
-	},
-	"scripts": {
-		"build": "tsc",
-		"dev": "tsc --watch --preserveWatchOutput",
-		"lint": "biome check && tsc --noEmit"
-	},
-	"dependencies": {
-		"@radix-ui/themes": "^3.2.0"
-	},
-	"devDependencies": {
-		"@repo/typescript-config": "workspace:*",
-		"@types/react": "^18.3.18",
-		"@types/react-dom": "^18.3.5"
-	},
-	"peerDependencies": {
-		"react": "^18.0.0",
-		"react-dom": "^18.0.0"
-	}
+  "name": "@repo/ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": ["dist/**"],
+  "exports": {
+    "./box": {
+      "import": "./dist/box.js",
+      "types": "./dist/box.d.ts"
+    },
+    "./button": {
+      "import": "./dist/button.js",
+      "types": "./dist/button.d.ts"
+    },
+    "./input": {
+      "import": "./dist/input.js",
+      "types": "./dist/input.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
+    "lint": "biome check && tsc --noEmit"
+  },
+  "dependencies": {
+    "@radix-ui/themes": "^3.2.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
 }

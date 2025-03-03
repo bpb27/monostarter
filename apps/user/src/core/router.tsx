@@ -9,44 +9,44 @@ import { ROUTES } from "./routes";
 import { atomPathAfterLogin, atomUser } from "./state";
 
 const Protected: FC = () => {
-	const user = useAtomValue(atomUser);
-	const setRedirect = useSetAtom(atomPathAfterLogin);
-	const { pathname } = useLocation();
-	const navigate = useNavigate();
+  const user = useAtomValue(atomUser);
+  const setRedirect = useSetAtom(atomPathAfterLogin);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
-	useEffect(() => {
-		if (!user) {
-			setRedirect(pathname);
-			navigate(ROUTES.LOGIN);
-		}
-	}, [user, setRedirect, pathname, navigate]);
+  useEffect(() => {
+    if (!user) {
+      setRedirect(pathname);
+      navigate(ROUTES.LOGIN);
+    }
+  }, [user, setRedirect, pathname, navigate]);
 
-	return !user ? null : <Outlet />;
+  return !user ? null : <Outlet />;
 };
 
 const routes = [
-	{
-		path: ROUTES.HOME,
-		element: <Protected />,
-		children: [
-			{
-				index: true,
-				element: <WelcomePage />,
-			},
-			{
-				path: ROUTES.WELCOME,
-				element: <WelcomePage />,
-			},
-			{
-				path: ROUTES.ABOUT,
-				element: <AboutPage />,
-			},
-		],
-	},
-	{
-		path: ROUTES.LOGIN,
-		element: <LoginPage />,
-	},
+  {
+    path: ROUTES.HOME,
+    element: <Protected />,
+    children: [
+      {
+        index: true,
+        element: <WelcomePage />,
+      },
+      {
+        path: ROUTES.WELCOME,
+        element: <WelcomePage />,
+      },
+      {
+        path: ROUTES.ABOUT,
+        element: <AboutPage />,
+      },
+    ],
+  },
+  {
+    path: ROUTES.LOGIN,
+    element: <LoginPage />,
+  },
 ] satisfies RouteObject[];
 
 const router = createBrowserRouter(routes);
@@ -58,5 +58,5 @@ export type ClientRoute = (typeof ROUTES)[keyof typeof ROUTES];
 export function linkTo<Path extends ClientRoute>(path: Path): string;
 export function linkTo<Path extends ClientRoute>(path: Path, params: PathParams<Path>): string;
 export function linkTo<Path extends ClientRoute>(path: Path, params?: PathParams<Path>): string {
-	return applyPathParams(path, params);
+  return applyPathParams(path, params);
 }

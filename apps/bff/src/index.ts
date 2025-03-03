@@ -9,20 +9,20 @@ const app = express();
 app.use(cors());
 
 app.get("/hello", (_req, res) => {
-	res.json({ greeting: "Hello World!" });
+  res.json({ greeting: "Hello World!" });
 });
 
 app.use("/trpc", trpcExpress.createExpressMiddleware({ router: appRouter }));
 
 const server = app.listen(3000, () => {
-	console.log("Server started on port 3000");
+  console.log("Server started on port 3000");
 });
 
 const exit = (reason: "SIGTERM" | "SIGINT") => {
-	console.log(`Exiting because of ${reason}`);
-	server.close(() => {
-		process.exit(0);
-	});
+  console.log(`Exiting because of ${reason}`);
+  server.close(() => {
+    process.exit(0);
+  });
 };
 
 // properly close on nodemon restart

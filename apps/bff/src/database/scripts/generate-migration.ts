@@ -3,9 +3,9 @@ import path from "node:path";
 
 const name = process.argv[2];
 if (typeof name !== "string") {
-	console.error("Please provide a name for the migration");
-	console.error("db:generate:migration add_fun_column_to_table");
-	process.exit(1);
+  console.error("Please provide a name for the migration");
+  console.error("db:generate:migration add_fun_column_to_table");
+  process.exit(1);
 }
 
 const contents = `
@@ -22,8 +22,8 @@ export async function down(db: MigrationDbState): Promise<void> {
 `;
 
 const filePath = path.join(
-	path.dirname(new URL(import.meta.url).pathname),
-	"../migrations",
-	`${new Date().toISOString().replace(/[\D]/g, "")}_${name.replace(/-/g, "_")}.ts`,
+  path.dirname(new URL(import.meta.url).pathname),
+  "../migrations",
+  `${new Date().toISOString().replace(/[\D]/g, "")}_${name.replace(/-/g, "_")}.ts`,
 );
 fs.writeFileSync(filePath, contents);

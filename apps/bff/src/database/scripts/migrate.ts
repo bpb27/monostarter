@@ -4,37 +4,37 @@ import { FileMigrationProvider, Migrator } from "kysely";
 import { db } from "../database.js";
 
 async function migrate(direction: "migrateToLatest" | "migrateUp" | "migrateDown") {
-	const migrationFolder = path.join(path.dirname(new URL(import.meta.url).pathname), "../migrations");
-	const migrator = new Migrator({
-		db,
-		provider: new FileMigrationProvider({ fs, path, migrationFolder }),
-	});
+  const migrationFolder = path.join(path.dirname(new URL(import.meta.url).pathname), "../migrations");
+  const migrator = new Migrator({
+    db,
+    provider: new FileMigrationProvider({ fs, path, migrationFolder }),
+  });
 
-	const { error, results } = await migrator[direction]();
+  const { error, results } = await migrator[direction]();
 
-	if (error) {
-		console.error(`failed to ${direction}`);
-		console.error(error);
-		process.exit(1);
-	} else if (results) {
-		for (const result of results) {
-			if (result.status === "Success") {
-				console.log(`migration "${result.migrationName}" was executed successfully`);
-			} else if (result.status === "Error") {
-				console.error(`failed to execute migration "${result.migrationName}"`);
-			}
-		}
-	} else {
-		console.error("did not migrate anything");
-	}
+  if (error) {
+    console.error(`failed to ${direction}`);
+    console.error(error);
+    process.exit(1);
+  } else if (results) {
+    for (const result of results) {
+      if (result.status === "Success") {
+        console.log(`migration "${result.migrationName}" was executed successfully`);
+      } else if (result.status === "Error") {
+        console.error(`failed to execute migration "${result.migrationName}"`);
+      }
+    }
+  } else {
+    console.error("did not migrate anything");
+  }
 
-	await db.destroy();
+  await db.destroy();
 }
 
 const direction = process.argv.find((arg) => arg.startsWith("direction="))?.split("=")[1];
 
 if (direction === "migrateToLatest" || direction === "migrateUp" || direction === "migrateDown") {
-	migrate(direction);
+  migrate(direction);
 } else {
-	throw new Error("migration direction must be migrateToLatest, migrateUp, or migrateDown");
+  throw new Error("migration direction must be migrateToLatest, migrateUp, or migrateDown");
 }

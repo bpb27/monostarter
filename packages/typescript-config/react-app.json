@@ -1,13 +1,13 @@
 {
-	"$schema": "https://json.schemastore.org/tsconfig",
-	"extends": "./base.json",
-	"compilerOptions": {
-		"allowImportingTsExtensions": true,
-		"jsx": "react-jsx",
-		"lib": ["ES2022", "DOM", "DOM.Iterable"],
-		"module": "ESNext",
-		"moduleResolution": "bundler",
-		"noEmit": true,
-		"useDefineForClassFields": true
-	}
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "useDefineForClassFields": true
+  }
 }

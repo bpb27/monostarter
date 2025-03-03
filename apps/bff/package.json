@@ -1,40 +1,40 @@
 {
-	"name": "@repo/bff",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"scripts": {
-		"dev": "tsup --dts --watch --onSuccess=\"tsx ./scripts/generate-types.ts && node ./dist\"",
-		"build": "tsup --dts",
-		"start": "node dist/index.js",
-		"generate-types": "tsx ./scripts/generate-types.ts",
-		"db:introspect": "kysely-codegen --dialect postgres --camel-case --env-file .env --out-file ./src/database/schema.ts",
-		"db:migrate:latest": "tsx ./src/database/scripts/migrate.ts -- direction=migrateToLatest",
-		"db:migrate:up": "tsx ./src/database/scripts/migrate.ts -- direction=migrateUp",
-		"db:migrate:down": "tsx ./src/database/scripts/migrate.ts -- direction=migrateDown",
-		"db:generate:migration": "tsx ./src/database/scripts/generate-migration.ts",
-		"db:seed": "tsx ./src/database/scripts/seed.ts"
-	},
-	"dependencies": {
-		"@dotenvx/dotenvx": "^1.36.0",
-		"@trpc/server": "11.0.0-rc.768",
-		"bcrypt": "^5.1.1",
-		"cors": "^2.8.5",
-		"express": "^5.0.1",
-		"kysely": "^0.27.2",
-		"pg": "^8.11.3",
-		"tsup": "^8.3.6",
-		"valibot": "1.0.0-rc.0"
-	},
-	"devDependencies": {
-		"@repo/typescript-config": "workspace:*",
-		"@types/bcrypt": "^5.0.2",
-		"@types/cors": "^2.8.17",
-		"@types/express": "^5.0.0",
-		"@types/node": "^22.13.4",
-		"@types/pg": "^8.11.0",
-		"kysely-codegen": "^0.17.0",
-		"nodemon": "^3.1.9",
-		"tsx": "^4.19.3"
-	}
+  "name": "@repo/bff",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsup --dts --watch --onSuccess=\"tsx ./scripts/generate-types.ts && node ./dist\"",
+    "build": "tsup --dts",
+    "start": "node dist/index.js",
+    "generate-types": "tsx ./scripts/generate-types.ts",
+    "db:introspect": "kysely-codegen --dialect postgres --camel-case --env-file .env --out-file ./src/database/schema.ts",
+    "db:migrate:latest": "tsx ./src/database/scripts/migrate.ts -- direction=migrateToLatest",
+    "db:migrate:up": "tsx ./src/database/scripts/migrate.ts -- direction=migrateUp",
+    "db:migrate:down": "tsx ./src/database/scripts/migrate.ts -- direction=migrateDown",
+    "db:generate:migration": "tsx ./src/database/scripts/generate-migration.ts",
+    "db:seed": "tsx ./src/database/scripts/seed.ts"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.36.0",
+    "@trpc/server": "11.0.0-rc.768",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "express": "^5.0.1",
+    "kysely": "^0.27.2",
+    "pg": "^8.11.3",
+    "tsup": "^8.3.6",
+    "valibot": "1.0.0-rc.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.4",
+    "@types/pg": "^8.11.0",
+    "kysely-codegen": "^0.17.0",
+    "nodemon": "^3.1.9",
+    "tsx": "^4.19.3"
+  }
 }
