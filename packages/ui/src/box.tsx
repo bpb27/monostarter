@@ -17,17 +17,51 @@ type PxScale =
 
 type HeightScale = "100vh" | "100%";
 
-type BoxProps = PropsWithChildren<{
+type ConstrainedStyleProps = PropsWithChildren<{
+	alignItems?: CSSProperties["alignItems"];
+	bottom?: PxScale;
 	display?: CSSProperties["display"];
 	flexDirection?: CSSProperties["flexDirection"];
-	justifyContent?: CSSProperties["justifyContent"];
-	alignItems?: CSSProperties["alignItems"];
 	gap?: PxScale;
-	padding?: PxScale;
-	margin?: PxScale;
 	height?: HeightScale;
+	justifyContent?: CSSProperties["justifyContent"];
+	left?: PxScale;
+	margin?: PxScale;
+	maxWidth?: CSSProperties["maxWidth"];
+	padding?: PxScale;
+	position?: CSSProperties["position"];
+	right?: PxScale;
+	top?: PxScale;
+	width?: CSSProperties["width"];
 }>;
 
-export const Box: FC<PropsWithChildren<BoxProps>> = ({ children, ...props }) => {
-	return <div style={props}>{children}</div>;
+type BoxVariant = "pageCenter" | "topRight" | "stack";
+
+const variantStyles: Record<BoxVariant, ConstrainedStyleProps> = {
+	pageCenter: {
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		flexDirection: "column",
+		height: "100vh",
+	},
+	topRight: {
+		position: "absolute",
+		right: "16px",
+		top: "16px",
+	},
+	stack: {
+		display: "flex",
+		flexDirection: "column",
+		gap: "16px",
+	},
+};
+
+export const Box: FC<PropsWithChildren<ConstrainedStyleProps & { variant?: BoxVariant }>> = ({
+	children,
+	variant,
+	...props
+}) => {
+	const styles = variant ? { ...variantStyles[variant], ...props } : props;
+	return <div style={styles}>{children}</div>;
 };

@@ -1,3 +1,11 @@
+Simpler setup:
+apps/bff has all the api and db stuff
+apps/bff exports the app router type
+packages/api-types imports and re-exports the app router type
+apps/user imports from packages
+need to verify that turborepo catches the changes
+but probably don't need to add a devDependency
+
 # Priority
 - packages/db
 - ENVs
@@ -7,6 +15,14 @@
 - Remote cache
 
 # TODO
+
+DB package should expose createDbPool with a connection string arg.
+BFF should create a pool and put it in TRPC context.
+API package should use db.context rather than accessing db package directly.
+BFF should kill pool on restarts.
+
+QueryParams hook.
+Query params schema in route config.
 
 Stories in packages/ui and Storybook app in apps/storybook-ui https://turbo.build/repo/docs/guides/tools/storybook#more-tips
 

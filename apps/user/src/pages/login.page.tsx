@@ -1,14 +1,15 @@
 import { Box } from "@repo/ui/box";
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import type { FormEvent } from "react";
+import { useNavigate } from "react-router";
 import * as v from "valibot";
 import { Link } from "../components/link";
 import { ThemeButton } from "../components/theme-button";
 import { api } from "../core/api";
 import { ROUTES } from "../core/routes";
-import { atomUser } from "../core/state";
+import { atomPathAfterLogin, atomUser } from "../core/state";
 import { useForm } from "../utils/use-form";
 
 const LoginForm = v.strictObject({
@@ -18,40 +19,41 @@ const LoginForm = v.strictObject({
 
 export const LoginPage = () => {
 	const [user, setUser] = useAtom(atomUser);
+	const redirectPath = useAtomValue(atomPathAfterLogin);
+	const navigate = useNavigate();
+	const form = useForm(LoginForm, { email: "", password: "" });
 
 	const login = api.login.useMutation({
 		onSuccess: (result) => {
 			setUser({ id: result.id });
-			if (window.location.pathname.includes(ROUTES.LOGIN)) {
-				window.location.replace(ROUTES.HOME);
-			} else {
-				window.location.reload();
-			}
+			navigate(redirectPath);
 		},
 	});
 
-	const { fields, formData, formIsValid } = useForm(LoginForm, { email: "", password: "" });
-
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (formIsValid) login.mutate(formData);
+		if (form.isValid) login.mutate(form.data);
 	};
 
 	return (
-		<Box display="flex" alignItems="center" justifyContent="center" flexDirection="column">
-			<ThemeButton />
+		<Box variant="pageCenter">
+			<Box variant="topRight">
+				<ThemeButton />
+			</Box>
 			<h1>Login</h1>
-			<form onSubmit={handleSubmit}>
-				<Box display="flex" flexDirection="column" gap="16px">
-					<Input {...fields.email} label="Email" />
-					<Input {...fields.password} label="Password" type="password" />
-					<Button type="submit" size="3" disabled={login.isPending}>
-						Submit
-					</Button>
-					{login.error && <p>{login.error.message}</p>}
-					{!!user && <Link to={ROUTES.HOME}>You are already logged in.</Link>}
-				</Box>
-			</form>
+			<Box maxWidth="400px" width="100%" padding="16px">
+				<form onSubmit={handleSubmit}>
+					<Box variant="stack">
+						<Input {...form.fields.email} label="Email" />
+						<Input {...form.fields.password} label="Password" type="password" />
+						<Button type="submit" size="3" disabled={login.isPending}>
+							Submit
+						</Button>
+						{login.error && <p>{login.error.message}</p>}
+						{!!user && <Link to={ROUTES.HOME}>You are already logged in.</Link>}
+					</Box>
+				</form>
+			</Box>
 		</Box>
 	);
 };

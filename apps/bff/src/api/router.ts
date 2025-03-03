@@ -1,7 +1,7 @@
-import { matchesPassword } from "@repo/db/auth";
-import { db } from "@repo/db/database";
 import { initTRPC } from "@trpc/server";
 import * as v from "valibot";
+import { db } from "../database/database.js";
+import { matchesPassword } from "../database/utils/hash_password.js";
 
 const t = initTRPC.context().create({
 	errorFormatter(opts) {
@@ -30,19 +30,14 @@ export const appRouter = router({
 		.mutation(async ({ input }) => {
 			const user = await db
 				.selectFrom("users")
-				.select(["id", "passwordHash"])
+				.select(["id", "passwordHash", "email"])
 				.where("email", "=", input.email)
 				.executeTakeFirst();
 			if (!user) throw new Error("User not found");
 			const passwordValid = await matchesPassword(input.password, user.passwordHash);
 			if (!passwordValid) throw new Error("Invalid password");
-			return { id: user.id };
+			return { id: user.id, email: user.email, isRad: false };
 		}),
-	hello: publicProcedure.input(validator(v.object({ name: v.string() }))).query(({ input }) => {
-		return {
-			greeting: `${input.name}, welcome pal!`,
-		};
-	}),
 });
 
 export type AppRouter = typeof appRouter;
