@@ -40,7 +40,7 @@ setup eslint
 
 ## Later speed improvements
 
-1. TSConfig "incremental" and "composite"
+1. TSConfig "incremental" and "composite" and "tsBuildInfoFile"
 2. Tsup instead of tsc?
 
 ## Pushing static builds

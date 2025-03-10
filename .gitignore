@@ -17,3 +17,10 @@ tsup.config.bundled*.mjs
 .DS_Store
 *.pem
 _AI_CHATS
+
+## Panda
+styled-system
+styled-system-studio
+
+## Storybook
+storybook-static

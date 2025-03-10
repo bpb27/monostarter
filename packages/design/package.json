@@ -1,0 +1,36 @@
+{
+  "name": "@repo/design",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": ["dist/**"],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles.css": {
+      "import": "./dist/styles.css"
+    }
+  },
+  "scripts": {
+    "build": "tsup --dts --onSuccess=\"panda cssgen --outfile dist/styles.css\"",
+    "dev": "tsup --dts --watch --onSuccess=\"panda cssgen --outfile dist/styles.css\"",
+    "lint": "biome check && tsc --noEmit",
+    "prepare": "panda codegen"
+  },
+  "dependencies": {
+    "@ark-ui/react": "^5.0.0"
+  },
+  "devDependencies": {
+    "@pandacss/dev": "^0.53.1",
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "tsup": "^8.4.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}
