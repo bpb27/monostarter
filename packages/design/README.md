@@ -1,15 +1,15 @@
-## TODO
+## Usage
 
-#### Recipes
-- Button, Input, Box
-- More constrained theme
-- Naming - maybe a-2px, b-4px, or something
+Add this package as a dependency in your app:
 
-#### Separate package
-Try generating styled-system into a new workspace package.
-It should probably just have a package.json config that points to exports (panda emit-package).
-The styled-system dir should be in gitignore.
-This repo can point to it.
-Also exports a style.css file?
-Does it have every css class? does that matter? does it scan other parts of the repo?
+```
+"@repo/design": "workspace:*"
+```
 
+And put the exported `<Provider>` at the root of your app.
+
+## Adding a new snippet
+
+```bash
+./node_modules/@chakra-ui/cli/bin/index.js snippet add button
+```

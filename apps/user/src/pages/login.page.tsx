@@ -1,12 +1,9 @@
-import { Box } from "@repo/ui/box";
-import { Button } from "@repo/ui/button";
-import { Input } from "@repo/ui/input";
+import { AbsoluteCenter, Box, Button, ColorModeButton, Field, Input } from "@repo/design";
 import { useAtom, useAtomValue } from "jotai";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router";
 import * as v from "valibot";
 import { Link } from "../components/link";
-import { ThemeButton } from "../components/theme-button";
 import { api } from "../core/api";
 import { ROUTES } from "../core/routes";
 import { atomPathAfterLogin, atomUser } from "../core/state";
@@ -36,24 +33,36 @@ export const LoginPage = () => {
   };
 
   return (
-    <Box variant="pageCenter">
-      <Box variant="topRight">
-        <ThemeButton />
+    <Box>
+      <Box>
+        <ColorModeButton />
       </Box>
-      <h1>Login</h1>
-      <Box maxWidth="400px" width="100%" padding="16px">
+      <AbsoluteCenter>
         <form onSubmit={handleSubmit}>
-          <Box variant="stack">
-            <Input {...form.fields.email} label="Email" />
-            <Input {...form.fields.password} label="Password" type="password" />
-            <Button type="submit" size="3" disabled={login.isPending}>
+          <Box display="flex" flexDirection="column" gap="16px">
+            <Field label="Email" errorText={form.fields.email.error} invalid={!form.isValid}>
+              <Input
+                name={form.fields.email.name}
+                value={form.fields.email.value}
+                onChange={form.fields.email.onChange}
+              />
+            </Field>
+            <Field label="Password" errorText={form.fields.password.error} invalid={!form.isValid}>
+              <Input
+                name={form.fields.password.name}
+                value={form.fields.password.value}
+                onChange={form.fields.password.onChange}
+                type="password"
+              />
+            </Field>
+            <Button type="submit" disabled={login.isPending}>
               Submit
             </Button>
             {login.error && <p>{login.error.message}</p>}
             {!!user && <Link to={ROUTES.HOME}>You are already logged in.</Link>}
           </Box>
         </form>
-      </Box>
+      </AbsoluteCenter>
     </Box>
   );
 };

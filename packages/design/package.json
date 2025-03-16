@@ -3,9 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "files": [
-    "dist/**"
-  ],
+  "files": ["dist/**"],
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -16,23 +14,25 @@
     }
   },
   "scripts": {
-    "build": "tsup --dts --onSuccess=\"panda cssgen --outfile dist/styles.css\"",
-    "dev": "tsup --dts --watch --onSuccess=\"panda cssgen --outfile dist/styles.css\"",
-    "lint": "biome check && tsc --noEmit",
-    "prepare": "panda codegen"
+    "build": "tsup --dts",
+    "dev": "tsup --dts --watch",
+    "lint": "biome check && tsc --noEmit"
   },
   "dependencies": {
-    "@ark-ui/react": "^5.0.0"
+    "@chakra-ui/react": "^3.13.0",
+    "@emotion/react": "^11.14.0",
+    "lucide-react": "^0.482.0",
+    "next-themes": "^0.4.6"
   },
   "devDependencies": {
-    "@pandacss/dev": "^0.53.1",
+    "@chakra-ui/cli": "^3.13.0",
     "@repo/typescript-config": "workspace:*",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "tsup": "^8.4.0"
   },
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }
