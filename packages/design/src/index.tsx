@@ -8,3 +8,4 @@ export * from "@chakra-ui/react/box";
 export * from "@chakra-ui/react/card";
 export * from "@chakra-ui/react/input";
 export * from "@chakra-ui/react/center";
+export * from "@chakra-ui/react/typography";
