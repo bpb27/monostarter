@@ -1,14 +1,10 @@
 import { useState } from "react";
 import * as v from "valibot";
 
-export const useForm = <
-  TSchema extends v.BaseSchema<
-    Record<string, string | number | undefined>,
-    Record<string, string | number | undefined>,
-    v.BaseIssue<unknown>
-  >,
-  TInitial extends v.InferInput<TSchema>,
->(
+// biome-ignore lint/suspicious/noExplicitAny: used for a generic
+type AnyObjectSchema = v.ObjectSchema<Record<string, any>, undefined>;
+
+export const useForm = <TSchema extends AnyObjectSchema, TInitial extends v.InferInput<TSchema>>(
   schema: TSchema,
   initialValues: TInitial,
 ) => {
@@ -44,3 +40,8 @@ export const useForm = <
 
   return { fields, data: formData, isValid: result.success };
 };
+
+export type Form<
+  TSchema extends AnyObjectSchema,
+  TInitial extends v.InferInput<TSchema> = v.InferInput<TSchema>,
+> = ReturnType<typeof useForm<TSchema, TInitial>>;

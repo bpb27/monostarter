@@ -1,10 +1,10 @@
 import { Button, ColorModeButton } from "@repo/design";
 import { Box } from "@repo/design";
 import { useAtom } from "jotai";
-import { Link } from "../components/link";
-import { api } from "../core/api";
-import { ROUTES } from "../core/routes";
-import { atomUser } from "../core/state";
+import { Link } from "~/components/link";
+import { api } from "~/core/api";
+import { ROUTES } from "~/core/routes";
+import { atomUser } from "~/core/state";
 
 export const WelcomePage = () => {
   const [user, setUser] = useAtom(atomUser);

@@ -1,10 +1,10 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { type FC, useEffect } from "react";
 import { Outlet, type RouteObject, RouterProvider, createBrowserRouter, useLocation, useNavigate } from "react-router";
-import { AboutPage } from "../pages/about.page";
-import { LoginPage } from "../pages/login.page";
-import { WelcomePage } from "../pages/welcome.page";
-import { type PathParams, applyPathParams } from "../utils/routing";
+import { AboutPage } from "~/pages/about.page";
+import { LoginPage } from "~/pages/login-page/login.page";
+import { WelcomePage } from "~/pages/welcome.page";
+import { type PathParams, applyPathParams } from "~/utils/routing";
 import { ROUTES } from "./routes";
 import { atomPathAfterLogin, atomUser } from "./state";
 
