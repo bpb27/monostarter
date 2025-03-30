@@ -1,47 +1,13 @@
 import { Box, Button, Card, Center, ColorModeButton, Field, Heading, Input } from "@repo/design";
-import { useAtom, useAtomValue } from "jotai";
-import type { FormEvent } from "react";
-import { useNavigate } from "react-router";
-import * as v from "valibot";
-import { Link } from "../components/link";
-import { api } from "../core/api";
-import { ROUTES } from "../core/routes";
-import { atomPathAfterLogin, atomUser } from "../core/state";
-import { type Form, useForm } from "../utils/use-form";
+import { Link } from "../../components/link";
+import { ROUTES } from "../../core/routes";
+import { useForm } from "../../utils/use-form";
+import { useLoginPageData } from "../login.page";
+import { LoginForm } from "./login.data";
 
-const LoginForm = v.object({
-  email: v.pipe(v.string(), v.nonEmpty("Email is required"), v.email("Email must be a valid address")),
-  password: v.pipe(v.string(), v.nonEmpty("Password is required"), v.minLength(8, "Password must be 8 characters")),
-});
+export type LoginPageProps = ReturnType<typeof useLoginPageData>;
 
-export const useLoginPageData = () => {
-  const [user, setUser] = useAtom(atomUser);
-  const redirectPath = useAtomValue(atomPathAfterLogin);
-  const navigate = useNavigate();
-
-  const login = api.login.useMutation({
-    onSuccess: (result) => {
-      setUser({ id: result.id });
-      navigate(redirectPath);
-    },
-  });
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>, form: Form<typeof LoginForm>) => {
-    e.preventDefault();
-    if (form.isValid) login.mutate(form.data);
-  };
-
-  return {
-    handleSubmit,
-    hasUser: !!user,
-    isPending: login.isPending,
-    error: login.error,
-  };
-};
-
-type Props = ReturnType<typeof useLoginPageData>;
-
-export const LoginPageUI = ({ handleSubmit, hasUser, isPending, error }: Props) => {
+export const LoginPageUI = ({ handleSubmit, hasUser, isPending, error }: LoginPageProps) => {
   const form = useForm(LoginForm, { email: "", password: "" });
   return (
     <Box>

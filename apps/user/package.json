@@ -25,10 +25,12 @@
     "@repo/api-types": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react-swc": "^3.8.0",
     "happy-dom": "^17.1.8",
+    "jsdom": "^26.0.0",
     "vite": "^6.2.0",
     "vitest": "^3.0.8"
   }
