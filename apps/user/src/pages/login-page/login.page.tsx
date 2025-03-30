@@ -1,9 +1,8 @@
 import { Box, Button, Card, Center, ColorModeButton, Field, Heading, Input } from "@repo/design";
-import { Link } from "../../components/link";
-import { ROUTES } from "../../core/routes";
-import { useForm } from "../../utils/use-form";
-import { useLoginPageData } from "../login.page";
-import { LoginForm } from "./login.data";
+import { Link } from "~/components/link";
+import { ROUTES } from "~/core/routes";
+import { useForm } from "~/utils/use-form";
+import { LoginForm, useLoginPageData } from "./login.data";
 
 export type LoginPageProps = ReturnType<typeof useLoginPageData>;
 

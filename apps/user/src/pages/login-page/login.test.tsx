@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, render, screen, userEvent, vi } from "../../utils/test-utils/render";
+import { beforeEach, describe, expect, it, render, screen, userEvent, vi } from "~/utils/test-utils/render";
 import { type LoginPageProps, LoginPageUI } from "../login-page/login.page";
 
 describe("LoginPage", () => {

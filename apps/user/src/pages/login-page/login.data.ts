@@ -2,9 +2,9 @@ import { useAtom, useAtomValue } from "jotai";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router";
 import * as v from "valibot";
-import { api } from "../../core/api";
-import { atomPathAfterLogin, atomUser } from "../../core/state";
-import type { Form } from "../../utils/use-form";
+import { api } from "~/core/api";
+import { atomPathAfterLogin, atomUser } from "~/core/state";
+import type { Form } from "~/utils/use-form";
 
 export const LoginForm = v.object({
   email: v.pipe(v.string(), v.nonEmpty("Email is required"), v.email("Email must be a valid address")),
