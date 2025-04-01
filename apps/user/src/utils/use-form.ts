@@ -1,8 +1,6 @@
 import { useState } from "react";
 import * as v from "valibot";
-
-// biome-ignore lint/suspicious/noExplicitAny: used for a generic
-type AnyObjectSchema = v.ObjectSchema<Record<string, any>, undefined>;
+import type { AnyObjectSchema } from "./generic-types";
 
 export const useForm = <TSchema extends AnyObjectSchema, TInitial extends v.InferInput<TSchema>>(
   schema: TSchema,

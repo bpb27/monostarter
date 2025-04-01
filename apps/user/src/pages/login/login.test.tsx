@@ -1,8 +1,8 @@
-import { beforeEach, describe, expect, it, render, screen, userEvent, vi } from "~/utils/test-utils/render";
-import { type LoginPageProps, LoginPageUI } from "../login-page/login.page";
+import { beforeEach, describe, expect, it, render, screen, userEvent, vi } from "~/utils/testing/render";
+import { LoginPageUI, type LoginPageUIProps } from "./login.page";
 
 describe("LoginPage", () => {
-  let props: LoginPageProps;
+  let props: LoginPageUIProps;
 
   beforeEach(() => {
     props = {

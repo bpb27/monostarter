@@ -6,4 +6,4 @@ export const atomUser = atomWithStorage<{ id: string } | undefined>("user", unde
   getOnInit: true,
 });
 
-export const atomPathAfterLogin = atom<string>(ROUTES.HOME);
+export const atomPathAfterLogin = atom<string>(ROUTES.ROOT);

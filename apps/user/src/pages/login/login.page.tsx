@@ -4,9 +4,9 @@ import { ROUTES } from "~/core/routes";
 import { useForm } from "~/utils/use-form";
 import { LoginForm, useLoginPageData } from "./login.data";
 
-export type LoginPageProps = ReturnType<typeof useLoginPageData>;
+export type LoginPageUIProps = ReturnType<typeof useLoginPageData>;
 
-export const LoginPageUI = ({ handleSubmit, hasUser, isPending, error }: LoginPageProps) => {
+export const LoginPageUI = ({ handleSubmit, hasUser, isPending, error }: LoginPageUIProps) => {
   const form = useForm(LoginForm, { email: "", password: "" });
   return (
     <Box>
@@ -16,7 +16,7 @@ export const LoginPageUI = ({ handleSubmit, hasUser, isPending, error }: LoginPa
       <Center>
         <Card.Root maxW="lg" size="lg">
           <Card.Header>
-            <Heading size="xl" textAlign="center">
+            <Heading size="2xl" textAlign="center">
               Login
             </Heading>
           </Card.Header>
@@ -42,7 +42,7 @@ export const LoginPageUI = ({ handleSubmit, hasUser, isPending, error }: LoginPa
                   Submit
                 </Button>
                 {error && <p>{error.message}</p>}
-                {hasUser && <Link to={ROUTES.HOME}>You are already logged in.</Link>}
+                {hasUser && <Link to={ROUTES.ROOT}>You are already logged in.</Link>}
               </Box>
             </form>
           </Card.Body>
@@ -53,6 +53,6 @@ export const LoginPageUI = ({ handleSubmit, hasUser, isPending, error }: LoginPa
 };
 
 export const LoginPage = () => {
-  const loginPageData = useLoginPageData();
-  return <LoginPageUI {...loginPageData} />;
+  const props = useLoginPageData();
+  return <LoginPageUI {...props} />;
 };

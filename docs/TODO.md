@@ -2,7 +2,6 @@
 - Deploy
 - ENVs
 - Remote cache
-- Query params parser + hook
 - Query params in route config
 - "Go to definition" for package exports consumed in apps (references)
 
