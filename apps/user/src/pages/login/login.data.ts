@@ -1,5 +1,4 @@
 import { useAtom, useAtomValue } from "jotai";
-import type { FormEvent } from "react";
 import { useNavigate } from "react-router";
 import * as v from "valibot";
 import { api } from "~/core/api";
@@ -23,9 +22,8 @@ export const useLoginPageData = () => {
     },
   });
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>, form: Form<typeof LoginForm>) => {
-    e.preventDefault();
-    if (form.isValid) login.mutate(form.data);
+  const handleSubmit = (formData: Form<typeof LoginForm>["data"]) => {
+    login.mutate(formData);
   };
 
   return {

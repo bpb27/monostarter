@@ -1,4 +1,4 @@
-import { Box, Button, Card, Center, ColorModeButton, Field, Heading, Input } from "@repo/design";
+import { Box, Button, Card, Center, ColorModeButton, Field, Heading, Input, Text } from "@repo/design";
 import { Link } from "~/components/link";
 import { ROUTES } from "~/core/routes";
 import { useForm } from "~/utils/use-form";
@@ -21,27 +21,18 @@ export const LoginPageUI = ({ handleSubmit, hasUser, isPending, error }: LoginPa
             </Heading>
           </Card.Header>
           <Card.Body>
-            <form onSubmit={(e) => handleSubmit(e, form)}>
+            <form onSubmit={form.onSubmit(handleSubmit)}>
               <Box display="flex" flexDirection="column" gap="4">
-                <Field label="Email" errorText={form.fields.email.error} invalid={!!form.fields.email.error}>
-                  <Input
-                    name={form.fields.email.name}
-                    value={form.fields.email.value}
-                    onChange={form.fields.email.onChange}
-                  />
+                <Field label="Email" errorText={form.errors.email} invalid={!!form.errors.email}>
+                  <Input {...form.fields.email} />
                 </Field>
-                <Field label="Password" errorText={form.fields.password.error} invalid={!!form.fields.password.error}>
-                  <Input
-                    name={form.fields.password.name}
-                    value={form.fields.password.value}
-                    onChange={form.fields.password.onChange}
-                    type="password"
-                  />
+                <Field label="Password" errorText={form.errors.password} invalid={!!form.errors.password}>
+                  <Input {...form.fields.password} type="password" />
                 </Field>
                 <Button type="submit" disabled={isPending}>
                   Submit
                 </Button>
-                {error && <p>{error.message}</p>}
+                {error && <Text color="red">{error.message}</Text>}
                 {hasUser && <Link to={ROUTES.ROOT}>You are already logged in.</Link>}
               </Box>
             </form>

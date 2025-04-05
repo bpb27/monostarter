@@ -1,12 +1,20 @@
-import { Link as ReactRouterLink, type LinkProps as ReactRouterLinkProps } from "react-router";
+import { Link as DesignLink } from "@repo/design";
+import { Link as ReactRouterLink, type LinkProps as ReactRouterLinkProps, useLocation } from "react-router";
 import { type ClientRoute } from "~/core/routes";
 import { type PathParams, applyPathParams } from "~/utils/routing";
 
 type LinkProps<T extends ClientRoute> = Omit<ReactRouterLinkProps, "to"> & {
+  isActive?: boolean;
   to: T;
   params?: PathParams<T>;
 };
 
-export const Link = <T extends ClientRoute>({ to, params, ...rest }: LinkProps<T>) => {
-  return <ReactRouterLink {...rest} to={applyPathParams(to, params)} />;
+export const Link = <T extends ClientRoute>({ isActive, params, to, ...rest }: LinkProps<T>) => {
+  const { pathname } = useLocation();
+  const underlined = typeof isActive === "boolean" ? isActive : pathname === to;
+  return (
+    <DesignLink asChild variant={underlined ? "underline" : "plain"}>
+      <ReactRouterLink {...rest} to={applyPathParams(to, params)} />
+    </DesignLink>
+  );
 };

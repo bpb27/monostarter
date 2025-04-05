@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import * as v from "valibot";
 import type { AnyObjectSchema } from "./generic-types";
 
@@ -7,36 +7,67 @@ export const useForm = <TSchema extends AnyObjectSchema, TInitial extends v.Infe
   initialValues: TInitial,
 ) => {
   const [formData, setFormData] = useState<TInitial>(initialValues);
+  const [touched, setTouched] = useState({} as Record<keyof TInitial, boolean>);
+  const [submitted, setSubmitted] = useState(false);
 
-  const update = <T extends keyof TInitial>(key: T, value: TInitial[T]) => {
+  const validation = useMemo(() => v.safeParse(schema, formData), [schema, formData]);
+
+  const issues = useMemo(
+    () => (validation.issues ? v.flatten<TSchema>(validation.issues).nested : undefined),
+    [validation.issues],
+  );
+
+  const update = useCallback(<T extends keyof TInitial>(key: T, value: TInitial[T]) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
-  };
+  }, []);
 
-  const result = v.safeParse(schema, formData);
-  const issues = result.issues ? v.flatten<TSchema>(result.issues).nested : undefined;
-
-  const fields = Object.keys(initialValues).reduce(
-    (acc, key) => {
-      const typedKey = key as keyof TInitial;
-      acc[typedKey] = {
-        error: issues && typedKey in issues ? issues[typedKey]?.[0] : undefined,
-        name: typedKey,
-        value: formData[typedKey],
-        onChange: (e) => update(typedKey, e.target.value as TInitial[typeof typedKey]),
-      };
-      return acc;
+  const onSubmit = useCallback(
+    (callback: (data: TInitial) => void) => (e: React.FormEvent) => {
+      e.preventDefault();
+      setSubmitted(true);
+      if (validation.success) callback(formData);
     },
-    {} as {
+    [formData, validation],
+  );
+
+  const errors = useMemo(
+    () =>
+      Object.keys(initialValues).reduce(
+        (acc, key) => {
+          const typedKey = key as keyof TInitial;
+          acc[typedKey] =
+            issues && typedKey in issues && (touched[typedKey] || submitted) ? issues[typedKey]?.[0] : undefined;
+          return acc;
+        },
+        {} as Record<keyof TInitial, string | undefined>,
+      ),
+    [initialValues, issues, touched, submitted],
+  );
+
+  const fields = useMemo(() => {
+    const fieldMap = {} as {
       [K in keyof TInitial]: {
-        error: string | undefined;
         name: K;
         value: TInitial[K];
         onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+        onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
       };
-    },
-  );
+    };
 
-  return { fields, data: formData, isValid: result.success };
+    for (const key of Object.keys(initialValues)) {
+      const typedKey = key as keyof TInitial;
+      fieldMap[typedKey] = {
+        name: typedKey,
+        value: formData[typedKey],
+        onChange: (e) => update(typedKey, e.target.value as TInitial[typeof typedKey]),
+        onBlur: () => setTouched((prev) => (!prev[typedKey] ? { ...prev, [typedKey]: true } : prev)),
+      };
+    }
+
+    return fieldMap;
+  }, [formData, initialValues, update]);
+
+  return { fields, data: formData, isValid: validation.success, errors, onSubmit };
 };
 
 export type Form<

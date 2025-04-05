@@ -1,13 +1,17 @@
-import { initTRPC } from "@trpc/server";
+import { TRPCError, initTRPC } from "@trpc/server";
 import * as v from "valibot";
 import { db } from "../database/database.js";
 import { matchesPassword } from "../database/utils/hash_password.js";
 
+// TODO: something off here
 const t = initTRPC.context().create({
-  errorFormatter(opts) {
-    const { code, message, cause } = opts.error;
-    const validation = cause instanceof v.ValiError ? cause.issues : null;
-    return { code, message, data: { validation } };
+  errorFormatter({ shape, error }) {
+    if (error?.cause instanceof v.ValiError) {
+      const flattened = v.flatten(error.cause.issues).nested;
+      return { ...shape, data: { ...shape.data, validation: flattened } };
+    } else {
+      return { ...shape, data: { ...shape.data, cause: error.cause } };
+    }
   },
 });
 
@@ -22,7 +26,9 @@ const validator =
 export const appRouter = router({
   users: router({
     getById: publicProcedure.input(validator(v.object({ id: v.string() }))).query(({ input }) => {
-      return db.selectFrom("users").selectAll().where("id", "=", input.id).executeTakeFirstOrThrow();
+      const user = db.selectFrom("users").selectAll().where("id", "=", input.id).executeTakeFirst();
+      if (!user) throw new TRPCError({ code: "NOT_FOUND", message: "User not found" });
+      return user;
     }),
   }),
   login: publicProcedure
@@ -33,10 +39,10 @@ export const appRouter = router({
         .select(["id", "passwordHash", "email"])
         .where("email", "=", input.email)
         .executeTakeFirst();
-      if (!user) throw new Error("User not found");
+      if (!user) throw new TRPCError({ code: "NOT_FOUND", message: "User not found" });
       const passwordValid = await matchesPassword(input.password, user.passwordHash);
-      if (!passwordValid) throw new Error("Invalid password");
-      return { id: user.id, email: user.email, isRad: false };
+      if (!passwordValid) throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid email or password" });
+      return { id: user.id, email: user.email };
     }),
 });
 

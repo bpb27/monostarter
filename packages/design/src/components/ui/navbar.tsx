@@ -1,156 +1,64 @@
-import { Box, type BoxProps } from "@chakra-ui/react/box";
-import { Flex, type FlexProps } from "@chakra-ui/react/flex";
-import { Link, type LinkProps } from "@chakra-ui/react/link";
-import { Stack, type StackProps } from "@chakra-ui/react/stack";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
-import type { ReactNode } from "react";
+import { Box, BoxProps, IconButton, Menu, Text } from "@chakra-ui/react";
+import { MenuIcon } from "lucide-react";
 
-// NavbarContainer Component
-export interface NavbarContainerProps extends FlexProps {
-  children: ReactNode;
-}
+/** The root container for the navbar */
+export const Root = ({ children, ...props }: BoxProps) => (
+  <Box
+    position="sticky"
+    top={0}
+    zIndex="banner"
+    w="full"
+    as="nav"
+    shadow="sm"
+    p={{ base: 2, md: 3 }}
+    display="flex"
+    justifyContent="space-between"
+    alignItems="center"
+    _dark={{ bg: "gray.800" }}
+    {...props}
+  >
+    {children}
+  </Box>
+);
 
-export const NavbarContainer = ({ children, ...props }: NavbarContainerProps) => {
-  return (
-    <Flex
-      position="sticky"
-      as="nav"
-      top={0}
-      align="center"
-      justify="space-between"
-      wrap="wrap"
-      w="100%"
-      p={4}
-      bg="white"
-      color="gray.600"
-      shadow="sm"
-      zIndex="banner"
-      _dark={{
-        bg: "gray.800",
-        color: "white",
-      }}
-      {...props}
-    >
-      {children}
-    </Flex>
-  );
-};
+/** The left-aligned container for the navbar - can pass in any children */
+export const Left = ({ children, ...props }: BoxProps) => (
+  <Box display="flex" justifyContent="start" alignItems="center" gap="4" {...props}>
+    {children}
+  </Box>
+);
 
-// NavbarBrand Component
-export interface NavbarBrandProps extends BoxProps {
-  children: ReactNode;
-}
+/** The right-aligned container for the navbar - can pass in any children */
+export const Right = ({ children, ...props }: BoxProps) => (
+  <Box display="flex" justifyContent="end" alignItems="center" gap="4" {...props}>
+    {children}
+  </Box>
+);
 
-export const NavbarBrand = ({ children, ...props }: NavbarBrandProps) => {
-  return (
-    <Box {...props} mr="4">
-      {children}
-    </Box>
-  );
-};
+/** A dropdown menu for the navbar - children should be multiple Navbar.DropdownItem components */
+export const Dropdown = ({ children, ...props }: Menu.RootProps) => (
+  <Menu.Root {...props}>
+    <Menu.Trigger asChild>
+      <IconButton variant="ghost">
+        <MenuIcon />
+      </IconButton>
+    </Menu.Trigger>
+    <Menu.Positioner>
+      <Menu.Content _dark={{ bg: "gray.700" }}>{children}</Menu.Content>
+    </Menu.Positioner>
+  </Menu.Root>
+);
 
-// NavbarToggle Component
-export interface NavbarToggleProps extends BoxProps {
-  isOpen: boolean;
-  toggle: () => void;
-}
+/** An individual dropdown item for the navbar dropdown menu - can pass in any children */
+export const DropdownItem = ({
+  actionDescription,
+  children,
+  ...props
+}: Omit<Menu.ItemProps, "value"> & { actionDescription: string }) => (
+  <Menu.Item value={actionDescription} asChild {...props}>
+    {typeof children === "string" ? <Text>{children}</Text> : children}
+  </Menu.Item>
+);
 
-export const NavbarToggle = ({ toggle, isOpen, ...props }: NavbarToggleProps) => {
-  return (
-    <Box display={{ base: "block", md: "none" }} onClick={toggle} cursor="pointer" {...props}>
-      {isOpen ? <X size={24} /> : <Menu size={24} />}
-    </Box>
-  );
-};
-
-// NavbarContent Component
-export interface NavbarContentProps extends BoxProps {
-  children: ReactNode;
-  isOpen?: boolean;
-}
-
-export const NavbarContent = ({ children, isOpen = true, ...props }: NavbarContentProps) => {
-  return (
-    <Box
-      display={{ base: isOpen ? "block" : "none", md: "flex" }}
-      width={{ base: "full", md: "auto" }}
-      alignItems="center"
-      flexGrow={1}
-      {...props}
-    >
-      {children}
-    </Box>
-  );
-};
-
-// NavbarItem Component
-export interface NavbarItemProps extends Omit<LinkProps, "children"> {
-  children: ReactNode;
-  isActive?: boolean;
-}
-
-export const NavbarItem = ({ children, isActive = false, ...props }: NavbarItemProps) => {
-  return (
-    <Link
-      px={2}
-      py={1}
-      rounded="md"
-      _hover={{
-        textDecoration: "none",
-        bg: "gray.100",
-        _dark: { bg: "gray.700" },
-      }}
-      bg={isActive ? "gray.100" : "transparent"}
-      _dark={{ bg: isActive ? "gray.700" : "transparent" }}
-      fontWeight={isActive ? "semibold" : "normal"}
-      asChild
-      {...props}
-    >
-      {children}
-    </Link>
-  );
-};
-
-// NavbarMenu Component
-export interface NavbarMenuProps extends Omit<StackProps, "direction"> {
-  children: ReactNode;
-}
-
-export const NavbarMenu = ({ children, ...props }: NavbarMenuProps) => {
-  return (
-    <Stack
-      as="div"
-      flexDirection={{ base: "column", md: "row" }}
-      display={{ base: "block", md: "flex" }}
-      width={{ base: "full", md: "auto" }}
-      alignItems="center"
-      gap={4}
-      mt={{ base: 4, md: 0 }}
-      {...props}
-    >
-      {children}
-    </Stack>
-  );
-};
-
-// Main Navbar Component
-export interface NavbarProps extends Omit<BoxProps, "direction"> {
-  children?: ReactNode;
-  logo?: ReactNode;
-}
-
-export const Navbar = ({ children, logo, ...props }: NavbarProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
-
-  return (
-    <NavbarContainer {...props}>
-      <NavbarBrand>{logo}</NavbarBrand>
-      <NavbarToggle toggle={toggle} isOpen={isOpen} />
-      <NavbarContent isOpen={isOpen}>
-        <NavbarMenu>{children}</NavbarMenu>
-      </NavbarContent>
-    </NavbarContainer>
-  );
-};
+/** A separator for the dropdown menu - should be used as a sibling of Navbar.DropdownItem components */
+export const DropdownSeparator = (props: Menu.SeparatorProps) => <Menu.Separator {...props} />;

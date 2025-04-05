@@ -1,5 +1,7 @@
 import { type PathParams, applyPathParams } from "~/utils/routing";
 
+// TODO: use object, path, description, tags, qps?
+
 export const ROUTES = {
   ROOT: "/" as const,
   WELCOME: "/welcome" as const,
