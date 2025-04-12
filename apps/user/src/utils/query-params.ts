@@ -1,110 +1,48 @@
 import { useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router";
-import * as v from "valibot";
-import type { AnyObjectSchema } from "./generic-types";
+import { AnySerializerSchema, Decoded, Encoded, createSerializer } from "./serializer";
 
-const isNumberArray = (values: unknown[]): values is number[] => values.every((v) => typeof v === "number");
+type ToggleArg<T> = {
+  [K in keyof T]: T[K] extends Array<infer U> ? { [Key in K]: U } : never;
+}[keyof T];
 
-export const qpSchema = {
-  number: v.pipe(
-    v.optional(v.string()),
-    v.transform((value) => {
-      if (!value) return undefined;
-      const parsed = Number(value);
-      return Number.isNaN(parsed) ? undefined : parsed;
-    }),
-  ),
-  numberList: v.pipe(
-    v.optional(v.string()),
-    v.transform((value) =>
-      value
-        ? value
-            .split(",")
-            .map((v) => Number(v))
-            .filter((n) => !Number.isNaN(n))
-        : [],
-    ),
-  ),
-  string: v.pipe(
-    v.optional(v.string()),
-    v.transform((value) => (value ? value.trim() : undefined)),
-  ),
-  stringList: v.pipe(
-    v.optional(v.string()),
-    v.transform((value) => (value ? value.split(",").map((v) => v.trim()) : [])),
-  ),
-  boolean: v.pipe(
-    v.optional(v.string()),
-    v.transform((value) => (value === "true" || value === "false" ? value === "true" : undefined)),
-  ),
-  enum: <T extends string | number>(values: T[]) =>
-    v.pipe(
-      v.optional(v.string()),
-      v.transform((value) => {
-        if (!value) return undefined;
-        if (isNumberArray(values)) {
-          return values.includes(Number(value)) ? (Number(value) as T) : undefined;
-        }
-        return values.includes(value as T) ? (value as T) : undefined;
-      }),
-    ),
-  enumList: <T extends string | number>(values: T[]) =>
-    v.pipe(
-      v.optional(v.string()),
-      v.transform((value) => {
-        if (!value) return [];
-        if (isNumberArray(values)) {
-          return value
-            .split(",")
-            .map((v) => Number(v))
-            .filter((n) => values.includes(n)) as T[];
-        }
-        return value
-          .split(",")
-          .map((v) => v.trim())
-          .filter((v) => values.includes(v as T)) as T[];
-      }),
-    ),
+const toggleListItem = <T>(list: T[], item: T): T[] => {
+  const exists = list.includes(item);
+  return exists ? list.filter(v => v !== item) : [...list, item];
 };
 
-export const parseQueryParams = <TSchema extends AnyObjectSchema>({
-  params,
-  schema,
-}: {
-  params: URLSearchParams;
-  schema: TSchema;
-}) => {
-  const result: Record<string, unknown> = {};
-  for (const [key, value] of params.entries()) {
-    result[key] = value;
-  }
-  return v.parse(schema, result);
-};
-
-export const setQueryParams = <TSchema extends AnyObjectSchema>({
-  params,
-  newParams,
-}: {
-  params: URLSearchParams;
-  schema: TSchema;
-  newParams: v.InferOutput<TSchema>;
-}) => {
-  const newSearchParams = new URLSearchParams(params);
-  for (const [key, value] of Object.entries(newParams)) {
-    newSearchParams.set(key, value);
-  }
-  return newSearchParams;
-};
-
-export const useQueryParams = <TSchema extends AnyObjectSchema>(schema: TSchema) => {
+export const useQueryParams = <T extends AnySerializerSchema>({ schema }: { schema: T }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const qps = useMemo(() => parseQueryParams({ params: searchParams, schema }), [searchParams, schema]);
-  const setQps = useCallback(
-    (params: v.InferOutput<TSchema>) => {
-      const newSearchParams = setQueryParams({ params: searchParams, newParams: params, schema });
+
+  const { encode, decode } = useMemo(() => createSerializer(schema), [schema]);
+
+  const values = useMemo(() => {
+    return decode(Object.fromEntries(searchParams.entries()) as Encoded<T>);
+  }, [searchParams, decode]);
+
+  const setValues = useCallback(
+    (newValues: Partial<Decoded<T>>) => {
+      const newSearchParams = new URLSearchParams(searchParams);
+      for (const [key, value] of Object.entries(encode(newValues))) {
+        newSearchParams.set(key, value);
+      }
       setSearchParams(newSearchParams);
     },
-    [searchParams, setSearchParams, schema],
+    [searchParams, setSearchParams, encode],
   );
-  return [qps, setQps] as const;
+
+  /** Toggles a value in a list*/
+  const toggle = useCallback(
+    (params: ToggleArg<Decoded<T>>) => {
+      const updates: Partial<Decoded<T>> = {};
+      for (const [key, value] of Object.entries(params)) {
+        // @ts-ignore - complex
+        updates[key] = toggleListItem(values[key], value);
+      }
+      setValues(updates);
+    },
+    [values, setValues],
+  );
+
+  return [values, setValues, toggle] as const;
 };

@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { useLocation, useNavigate } from "react-router";
 import { describe, test } from "vitest";
-import { ROUTES } from "../../core/routes";
+import { ROUTES } from "~/core/routes";
 import { RouterMockProvider } from "./router-mock-provider";
 
 describe("RouterMockProvider", () => {

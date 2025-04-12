@@ -20,7 +20,7 @@ const preview: Preview = {
         dark: "dark",
       },
     }),
-    (Story) => (
+    Story => (
       <Provider>
         <Story />
       </Provider>

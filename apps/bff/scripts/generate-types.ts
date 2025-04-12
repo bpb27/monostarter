@@ -21,7 +21,7 @@ const target = "packages/api-types/index.ts";
 const inputFile = resolve(__dirname, "../dist/index.d.ts");
 const outputFile = resolve(__dirname, `../../../${target}`);
 
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 async function generateTypes(retries = 6, delayMs = 500): Promise<void> {
   for (let attempt = 1; attempt <= retries; attempt++) {

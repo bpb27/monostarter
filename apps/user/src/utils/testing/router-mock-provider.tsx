@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { MemoryRouter, Route, Routes } from "react-router";
-import type { ClientRoute } from "../../core/router";
+import { type ClientRoute } from "~/core/routes";
 
 export const NAVIGATED_AWAY = "Navigated away";
 

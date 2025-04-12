@@ -15,7 +15,7 @@ export const DisplayTable = <R extends string, C extends string>({
         <thead>
           <tr>
             <th style={{ padding: "8px", textAlign: "left" }} />
-            {columns.map((column) => (
+            {columns.map(column => (
               <th key={column} style={{ padding: "8px", textAlign: "center", fontWeight: "bold" }}>
                 {column}
               </th>
@@ -23,10 +23,10 @@ export const DisplayTable = <R extends string, C extends string>({
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
+          {rows.map(row => (
             <tr key={row}>
               <td style={{ padding: "8px", fontWeight: "bold", textAlign: "left" }}>{row}</td>
-              {columns.map((column) => (
+              {columns.map(column => (
                 <td key={`${row}-${column}`} style={{ padding: "8px", textAlign: "center" }}>
                   {renderItem(row, column)}
                 </td>

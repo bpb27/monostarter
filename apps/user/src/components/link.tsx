@@ -3,6 +3,8 @@ import { Link as ReactRouterLink, type LinkProps as ReactRouterLinkProps, useLoc
 import { type ClientRoute } from "~/core/routes";
 import { type PathParams, applyPathParams } from "~/utils/routing";
 
+// TODO: isActive is really just a navbar concern - move logic to hook to prevent rerenders
+
 type LinkProps<T extends ClientRoute> = Omit<ReactRouterLinkProps, "to"> & {
   isActive?: boolean;
   to: T;

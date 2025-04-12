@@ -31,7 +31,7 @@ async function migrate(direction: "migrateToLatest" | "migrateUp" | "migrateDown
   await db.destroy();
 }
 
-const direction = process.argv.find((arg) => arg.startsWith("direction="))?.split("=")[1];
+const direction = process.argv.find(arg => arg.startsWith("direction="))?.split("=")[1];
 
 if (direction === "migrateToLatest" || direction === "migrateUp" || direction === "migrateDown") {
   migrate(direction);

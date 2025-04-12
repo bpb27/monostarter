@@ -1,3 +1,8 @@
+## TO TRY
+- Fastify + Typebox API, switch out Valibot on FE, Orval or something else for API client
+
+Remove bcrypt (has a bunch of old deps)
+
 # TODO
 - Deploy
 - ENVs

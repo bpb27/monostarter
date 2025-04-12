@@ -5,7 +5,7 @@ export * from "@testing-library/user-event";
 import { render as rtlRender } from "@testing-library/react";
 import type { RenderResult } from "@testing-library/react";
 import { type ReactElement, type ReactNode, StrictMode } from "react";
-import { ThemeProvider } from "../../core/theme";
+import { ThemeProvider } from "~/core/theme";
 
 const Providers = ({ children }: { children: ReactNode }) => (
   <StrictMode>

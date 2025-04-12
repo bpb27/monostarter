@@ -1,4 +1,4 @@
-import { Box, Button, Card, Center, ColorModeButton, Field, Heading, Input, Text } from "@repo/design";
+import { Box, Button, Card, Center, ColorModeButton, Field, Heading, Input } from "@repo/design";
 import { Link } from "~/components/link";
 import { ROUTES } from "~/core/routes";
 import { useForm } from "~/utils/use-form";
@@ -6,7 +6,7 @@ import { LoginForm, useLoginPageData } from "./login.data";
 
 export type LoginPageUIProps = ReturnType<typeof useLoginPageData>;
 
-export const LoginPageUI = ({ handleSubmit, hasUser, isPending, error }: LoginPageUIProps) => {
+export const LoginPageUI = ({ handleSubmit, hasUser, isPending }: LoginPageUIProps) => {
   const form = useForm(LoginForm, { email: "", password: "" });
   return (
     <Box>
@@ -14,7 +14,7 @@ export const LoginPageUI = ({ handleSubmit, hasUser, isPending, error }: LoginPa
         <ColorModeButton />
       </Box>
       <Center>
-        <Card.Root maxW="lg" size="lg">
+        <Card.Root size="lg" maxW="100%">
           <Card.Header>
             <Heading size="2xl" textAlign="center">
               Login
@@ -32,7 +32,6 @@ export const LoginPageUI = ({ handleSubmit, hasUser, isPending, error }: LoginPa
                 <Button type="submit" disabled={isPending}>
                   Submit
                 </Button>
-                {error && <Text color="red">{error.message}</Text>}
                 {hasUser && <Link to={ROUTES.ROOT}>You are already logged in.</Link>}
               </Box>
             </form>

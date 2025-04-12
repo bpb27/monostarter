@@ -1,3 +1,4 @@
+import { Toaster } from "@repo/design";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { ApiProvider } from "./core/api.tsx";
@@ -10,6 +11,7 @@ if (!rootElement) throw new Error("Root element missing");
 const App = () => (
   <ApiProvider>
     <ThemeProvider>
+      <Toaster />
       <RoutesProvider />
     </ThemeProvider>
   </ApiProvider>

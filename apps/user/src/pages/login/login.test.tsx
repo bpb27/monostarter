@@ -9,7 +9,6 @@ describe("LoginPage", () => {
       handleSubmit: vi.fn(),
       hasUser: false,
       isPending: false,
-      error: null,
     };
   });
 
@@ -31,9 +30,6 @@ describe("LoginPage", () => {
     await userEvent.type(screen.getByLabelText("Password"), formValues.password);
     await userEvent.click(screen.getByText("Submit"));
 
-    expect(props.handleSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ type: "submit" }),
-      expect.objectContaining({ data: formValues }),
-    );
+    expect(props.handleSubmit).toHaveBeenCalledWith(formValues);
   });
 });

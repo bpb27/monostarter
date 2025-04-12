@@ -26,7 +26,7 @@ async function seed() {
     await db.deleteFrom("users").execute();
     console.log("✓ Cleared existing users");
     const mappedUsers = await Promise.all(
-      users.map(async (user) => ({ ...user, passwordHash: await hashPassword("password") })),
+      users.map(async user => ({ ...user, passwordHash: await hashPassword("password") })),
     );
     await db.insertInto("users").values(mappedUsers).execute();
     console.log("✅ Seeding complete!");

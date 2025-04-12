@@ -11,8 +11,8 @@ export const AppLayout = () => {
     <>
       <Navbar.Root>
         <Navbar.Left>
-          <Heading size="2xl" fontWeight="bold">
-            My App
+          <Heading size="2xl" fontWeight="bolder">
+            BRAND
           </Heading>
           <Box display={{ base: "none", md: "flex" }} gap="4">
             <Link to={ROUTES.WELCOME}>Home</Link>

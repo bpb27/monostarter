@@ -41,7 +41,7 @@ export const Variants: Story = {
     variant: { table: { disable: true } },
     colorPalette: { table: { disable: true } },
   },
-  render: (args) => (
+  render: args => (
     <DisplayTable
       rows={ButtonPropValues.variant}
       columns={ButtonPropValues.colorPalette}
@@ -60,7 +60,7 @@ export const Sizes: Story = {
     variant: { table: { disable: true } },
     size: { table: { disable: true } },
   },
-  render: (args) => (
+  render: args => (
     <DisplayTable
       rows={ButtonPropValues.variant}
       columns={ButtonPropValues.size}

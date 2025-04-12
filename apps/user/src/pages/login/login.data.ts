@@ -1,13 +1,14 @@
+import { toaster } from "@repo/design";
+import { Static, Type } from "@sinclair/typebox";
 import { useAtom, useAtomValue } from "jotai";
 import { useNavigate } from "react-router";
-import * as v from "valibot";
 import { api } from "~/core/api";
 import { atomPathAfterLogin, atomUser } from "~/core/state";
-import type { Form } from "~/utils/use-form";
+import { patternSchema } from "~/utils/patterns";
 
-export const LoginForm = v.object({
-  email: v.pipe(v.string(), v.nonEmpty("Email is required"), v.email("Email must be a valid address")),
-  password: v.pipe(v.string(), v.nonEmpty("Password is required"), v.minLength(8, "Password must be 8 characters")),
+export const LoginForm = Type.Object({
+  email: patternSchema.email,
+  password: patternSchema.password,
 });
 
 export const useLoginPageData = () => {
@@ -16,13 +17,16 @@ export const useLoginPageData = () => {
   const navigate = useNavigate();
 
   const login = api.login.useMutation({
-    onSuccess: (result) => {
+    onSuccess: result => {
       setUser({ id: result.id });
       navigate(redirectPath);
     },
+    onError: error => {
+      toaster.create({ title: "Login was unsuccessful", description: error.message, type: "error" });
+    },
   });
 
-  const handleSubmit = (formData: Form<typeof LoginForm>["data"]) => {
+  const handleSubmit = (formData: Static<typeof LoginForm>) => {
     login.mutate(formData);
   };
 
@@ -30,6 +34,5 @@ export const useLoginPageData = () => {
     handleSubmit,
     hasUser: !!user,
     isPending: login.isPending,
-    error: login.error,
   };
 };

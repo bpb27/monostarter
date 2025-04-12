@@ -1,8 +1,8 @@
+import { Static, TObject } from "@sinclair/typebox";
+import { Value } from "@sinclair/typebox/value";
 import { useCallback, useMemo, useState } from "react";
-import * as v from "valibot";
-import type { AnyObjectSchema } from "./generic-types";
 
-export const useForm = <TSchema extends AnyObjectSchema, TInitial extends v.InferInput<TSchema>>(
+export const useForm = <TSchema extends TObject, TInitial extends Static<TSchema>>(
   schema: TSchema,
   initialValues: TInitial,
 ) => {
@@ -10,39 +10,32 @@ export const useForm = <TSchema extends AnyObjectSchema, TInitial extends v.Infe
   const [touched, setTouched] = useState({} as Record<keyof TInitial, boolean>);
   const [submitted, setSubmitted] = useState(false);
 
-  const validation = useMemo(() => v.safeParse(schema, formData), [schema, formData]);
-
-  const issues = useMemo(
-    () => (validation.issues ? v.flatten<TSchema>(validation.issues).nested : undefined),
-    [validation.issues],
-  );
+  const isValid = useMemo(() => Value.Check(schema, formData), [schema, formData]);
 
   const update = useCallback(<T extends keyof TInitial>(key: T, value: TInitial[T]) => {
-    setFormData((prev) => ({ ...prev, [key]: value }));
+    setFormData(prev => ({ ...prev, [key]: value }));
   }, []);
 
   const onSubmit = useCallback(
     (callback: (data: TInitial) => void) => (e: React.FormEvent) => {
       e.preventDefault();
       setSubmitted(true);
-      if (validation.success) callback(formData);
+      if (isValid) callback(formData);
     },
-    [formData, validation],
+    [formData, isValid],
   );
 
-  const errors = useMemo(
-    () =>
-      Object.keys(initialValues).reduce(
-        (acc, key) => {
-          const typedKey = key as keyof TInitial;
-          acc[typedKey] =
-            issues && typedKey in issues && (touched[typedKey] || submitted) ? issues[typedKey]?.[0] : undefined;
-          return acc;
-        },
-        {} as Record<keyof TInitial, string | undefined>,
-      ),
-    [initialValues, issues, touched, submitted],
-  );
+  const errors = useMemo(() => {
+    return Array.from(Value.Errors(schema, formData)).reduce(
+      (acc, issue) => {
+        const key = issue.path.substring(1) as keyof TInitial;
+        if (!touched[key] && !submitted) return acc;
+        acc[key] = issue.schema.description || issue.message;
+        return acc;
+      },
+      {} as Record<keyof TInitial, string>,
+    );
+  }, [formData, schema, touched, submitted]);
 
   const fields = useMemo(() => {
     const fieldMap = {} as {
@@ -59,18 +52,17 @@ export const useForm = <TSchema extends AnyObjectSchema, TInitial extends v.Infe
       fieldMap[typedKey] = {
         name: typedKey,
         value: formData[typedKey],
-        onChange: (e) => update(typedKey, e.target.value as TInitial[typeof typedKey]),
-        onBlur: () => setTouched((prev) => (!prev[typedKey] ? { ...prev, [typedKey]: true } : prev)),
+        onChange: e => update(typedKey, e.target.value as TInitial[typeof typedKey]),
+        onBlur: () => setTouched(prev => (!prev[typedKey] ? { ...prev, [typedKey]: true } : prev)),
       };
     }
 
     return fieldMap;
   }, [formData, initialValues, update]);
 
-  return { fields, data: formData, isValid: validation.success, errors, onSubmit };
+  return { fields, data: formData, isValid, errors, onSubmit };
 };
 
-export type Form<
-  TSchema extends AnyObjectSchema,
-  TInitial extends v.InferInput<TSchema> = v.InferInput<TSchema>,
-> = ReturnType<typeof useForm<TSchema, TInitial>>;
+export type Form<TSchema extends TObject, TInitial extends Static<TSchema> = Static<TSchema>> = ReturnType<
+  typeof useForm<TSchema, TInitial>
+>;
