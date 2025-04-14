@@ -1,6 +1,6 @@
+import { type AnySerializerSchema, type Decoded, type Encoded, createSerializer } from "@repo/utils";
 import { useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router";
-import { AnySerializerSchema, Decoded, Encoded, createSerializer } from "./serializer";
 
 type ToggleArg<T> = {
   [K in keyof T]: T[K] extends Array<infer U> ? { [Key in K]: U } : never;

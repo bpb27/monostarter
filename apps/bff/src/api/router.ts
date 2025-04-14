@@ -25,8 +25,8 @@ const validator =
 
 export const appRouter = router({
   users: router({
-    getById: publicProcedure.input(validator(v.object({ id: v.string() }))).query(({ input }) => {
-      const user = db.selectFrom("users").selectAll().where("id", "=", input.id).executeTakeFirst();
+    getById: publicProcedure.input(validator(v.object({ id: v.string() }))).query(async ({ input }) => {
+      const user = await db.selectFrom("users").selectAll().where("id", "=", input.id).executeTakeFirst();
       if (!user) throw new TRPCError({ code: "NOT_FOUND", message: "User not found" });
       return user;
     }),

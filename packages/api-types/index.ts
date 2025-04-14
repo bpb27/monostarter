@@ -69,7 +69,7 @@ declare const appRouter: _trpc_server_unstable_core_do_not_import.BuiltRouter<{
                 lastName: string;
                 passwordHash: string;
                 updatedAt: Date;
-            } | undefined;
+            };
         }>;
     }>>;
     login: _trpc_server.TRPCMutationProcedure<{

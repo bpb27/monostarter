@@ -3,7 +3,7 @@ import { Static, Type } from "@sinclair/typebox";
 import { useAtom, useAtomValue } from "jotai";
 import { useNavigate } from "react-router";
 import { api } from "~/core/api";
-import { atomPathAfterLogin, atomUser } from "~/core/state";
+import { atomMaybeUser, atomPathAfterLogin } from "~/core/state";
 import { patternSchema } from "~/utils/patterns";
 
 export const LoginForm = Type.Object({
@@ -12,7 +12,7 @@ export const LoginForm = Type.Object({
 });
 
 export const useLoginPageData = () => {
-  const [user, setUser] = useAtom(atomUser);
+  const [user, setUser] = useAtom(atomMaybeUser);
   const redirectPath = useAtomValue(atomPathAfterLogin);
   const navigate = useNavigate();
 

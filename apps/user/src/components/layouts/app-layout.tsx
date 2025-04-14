@@ -2,11 +2,11 @@ import { Box, Button, ColorModeButton, Heading, Navbar } from "@repo/design";
 import { useSetAtom } from "jotai";
 import { Outlet } from "react-router";
 import { ROUTES } from "~/core/routes";
-import { atomUser } from "~/core/state";
+import { atomMaybeUser } from "~/core/state";
 import { Link } from "../link";
 
 export const AppLayout = () => {
-  const setUser = useSetAtom(atomUser);
+  const setUser = useSetAtom(atomMaybeUser);
   return (
     <>
       <Navbar.Root>

@@ -1,5 +1,6 @@
 import { Button, Container, Field, Heading, Input } from "@repo/design";
-import { fieldTypes, useQueryParams } from "~/utils/serializer";
+import { fieldTypes } from "@repo/utils";
+import { useQueryParams } from "~/utils/query-params";
 
 const schema = {
   name: fieldTypes.string(),

@@ -1,19 +1,18 @@
-import { useAtomValue } from "jotai";
-import { api } from "~/core/api";
+import { getDefaultStore } from "jotai";
+import { useLoaderData } from "react-router";
+import { trpcClient } from "~/core/api";
+import { protectedLoader } from "~/core/protected-route";
 import { atomUser } from "~/core/state";
-import { PAGE_STATUS } from "~/utils/enums";
+
+export const welcomePageLoader = protectedLoader(async () => {
+  const { id } = getDefaultStore().get(atomUser);
+  const user = await trpcClient.users.getById.query({ id });
+  return { user };
+});
 
 export const useWelcomePageData = () => {
-  const user = useAtomValue(atomUser);
-  const userData = api.users.getById.useQuery({ id: user?.id ?? "" });
-
-  if (userData.data) {
-    return { status: PAGE_STATUS.LOADED, user: userData.data };
-  } else if (userData.isPending) {
-    return { status: PAGE_STATUS.LOADING };
-  } else {
-    return { status: PAGE_STATUS.ERROR, error: userData.error?.message };
-  }
+  const loaderData = useLoaderData<typeof welcomePageLoader>();
+  return loaderData;
 };
 
-export type WelcomePageData = Extract<ReturnType<typeof useWelcomePageData>, { status: "loaded" }>;
+export type WelcomePageData = ReturnType<typeof useWelcomePageData>;

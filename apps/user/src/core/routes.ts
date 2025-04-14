@@ -5,6 +5,8 @@ import { type PathParams, applyPathParams } from "~/utils/routing";
 export const ROUTES = {
   ROOT: "/" as const,
   WELCOME: "/welcome" as const,
+  WELCOME_A: "/welcome/a" as const,
+  WELCOME_B: "/welcome/b" as const,
   ABOUT: "/about" as const,
   LOGIN: "/login" as const,
 } as const;
